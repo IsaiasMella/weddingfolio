@@ -13,6 +13,10 @@
  *     alguien guardó `localStorage.theme = 'light'` se aplica el tema claro de
  *     demostración (ver src/styles/tokens.css).
  *
+ * El try/catch cubre navegadores con localStorage bloqueado (modo privado
+ * estricto): ahí queda el tema por defecto. Este script NO se minifica
+ * (is:inline se publica tal cual), por eso los comentarios van acá arriba.
+ *
  * En Next esto sería el <script> que inyecta `next-themes` en el layout raíz.
  */
 ---
@@ -24,8 +28,6 @@
     try {
       const theme = localStorage.getItem('theme');
       if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
-    } catch {
-      /* localStorage bloqueado (modo privado estricto): queda el tema por defecto. */
-    }
+    } catch {}
   })();
 </script>

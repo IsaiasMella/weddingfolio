@@ -1,0 +1,40 @@
+---
+/**
+ * Galería de una boda en columnas tipo "masonry" hechas solo con CSS
+ * (`columns-*` + `break-inside-avoid`): una columna en celular, dos desde `sm`.
+ * No hay visor ni carrusel, igual que en el original: cero JavaScript.
+ *
+ * Todas las fotos declaran 1200×1600 (como el original) para reservar el
+ * espacio antes de que carguen; van con lazy-loading porque están debajo del
+ * primer pantallazo.
+ */
+import Container from '@/components/ui/Container.astro';
+import Photo from '@/components/ui/Photo.astro';
+
+type Props = {
+  photos: { src: string; alt: string }[];
+};
+
+const { photos } = Astro.props;
+---
+
+<section class="pb-20 sm:pb-28" aria-label="Gallery">
+  <Container>
+    <div class="columns-1 gap-5 sm:columns-2 sm:gap-6">
+      {
+        photos.map((photo) => (
+          <div class="mb-5 break-inside-avoid overflow-hidden bg-ink-muted sm:mb-6">
+            <Photo
+              src={photo.src}
+              alt={photo.alt}
+              width={1200}
+              height={1600}
+              sizes="(max-width: 640px) 100vw, 50vw"
+              class="w-full object-cover"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>

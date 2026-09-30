@@ -1,0 +1,62 @@
+---
+/**
+ * /blog — listado del journal, paginado.
+ *
+ * Igual que /portfolio: `paginate()` publica la página 1 en /blog/ y las
+ * siguientes en /blog/2/… Con el contenido actual (5 artículos, PAGE_SIZE = 9)
+ * sale solo /blog/. Los borradores (`draft: true`) ya vienen filtrados por
+ * getPosts().
+ *
+ * La grilla tiene 3 columnas en escritorio, por eso el retardo de aparición
+ * se repite cada 3 tarjetas (1, 2, 3, 1, 2…), igual que en el original.
+ */
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import CtaBanner from '@/components/shared/CtaBanner.astro';
+import PostCard from '@/components/blog/PostCard.astro';
+import Pagination from '@/components/blog/Pagination.astro';
+import { getPosts, PAGE_SIZE, revealDelay, type Post } from '@/lib/content';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  return paginate(await getPosts(), { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+type Props = {
+  page: Page<Post>;
+};
+
+const { page } = Astro.props;
+const title = page.currentPage === 1 ? 'Journal' : `Journal — Page ${page.currentPage}`;
+---
+
+<BaseLayout
+  title={title}
+  description="Wedding planning advice, photography insights, and stories from Elena & Co."
+>
+  <PageIntro
+    eyebrow="Journal"
+    title="Notes from the field"
+    lead="Planning tips, process notes, and reflections from recent weddings."
+  />
+  <section class="pb-20 sm:pb-28">
+    <Container>
+      <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+        {
+          page.data.map((post, i) => (
+            <PostCard post={post} delay={revealDelay(i % 3)} eager={page.currentPage === 1 && i === 0} />
+          ))
+        }
+      </div>
+      <Pagination
+        currentPage={page.currentPage}
+        lastPage={page.lastPage}
+        prevUrl={page.url.prev}
+        nextUrl={page.url.next}
+        label="Journal pages"
+      />
+    </Container>
+  </section>
+  <CtaBanner />
+</BaseLayout>

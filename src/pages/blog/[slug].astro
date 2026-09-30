@@ -1,0 +1,69 @@
+---
+/**
+ * /blog/[slug] — artículo del journal.
+ *
+ * Cabecera → portada → texto en Markdown (.prose-wedding) → etiquetas →
+ * volver al journal. Los <h2> del Markdown reciben `id` automáticos (slug del
+ * texto), útiles para enlazar a una sección.
+ *
+ * Declara su propio JSON-LD `BlogPosting` (en lugar del del negocio) para que
+ * los buscadores lo reconozcan como artículo con autor y fechas.
+ */
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import CtaBanner from '@/components/shared/CtaBanner.astro';
+import PostHeader from '@/components/blog/PostHeader.astro';
+import PostCover from '@/components/blog/PostCover.astro';
+import TagList from '@/components/blog/TagList.astro';
+import { SITE } from '@/data/site';
+import { getPosts, type Post } from '@/lib/content';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+type Props = {
+  post: Post;
+};
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, author, cover, tags } = post.data;
+const { Content } = await render(post);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  image: cover.src,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: { '@type': 'Person', name: author },
+  publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  // Sin barra final, como en el original.
+  mainEntityOfPage: `${SITE.url}/blog/${post.id}`,
+};
+---
+
+<BaseLayout title={title} description={description} image={cover.src} imageAlt={cover.alt} type="article" schema={schema}>
+  <article>
+    <PostHeader title={title} pubDate={pubDate} author={author} />
+    <PostCover src={cover.src} alt={cover.alt} />
+    <div class="pb-16 sm:pb-20">
+      <Container size="3xl">
+        <div class="prose-wedding">
+          <Content />
+        </div>
+        <TagList tags={tags} />
+        <div class="mt-10">
+          <Button href="/blog" variant="ghost">Back to journal</Button>
+        </div>
+      </Container>
+    </div>
+  </article>
+  <CtaBanner />
+</BaseLayout>

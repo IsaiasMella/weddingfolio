@@ -1,0 +1,41 @@
+---
+/**
+ * Tarjeta de una boda en el listado /portfolio: foto vertical 4:5 que hace un
+ * zoom suave al pasar el mouse, lugar, pareja y título largo.
+ *
+ * Toda la tarjeta es un único enlace (<a class="group">) para que el área
+ * clicable sea grande; el hover del enlace anima la foto y el título.
+ * `eager` es para la primera tarjeta, que aparece en el primer pantallazo.
+ */
+import Photo from '@/components/ui/Photo.astro';
+import type { Project } from '@/lib/content';
+
+type Props = {
+  project: Project;
+  /** Clase de retardo de aparición (reveal-delay-N) según su posición en la grilla. */
+  delay: string;
+  eager?: boolean;
+};
+
+const { project, delay, eager = false } = Astro.props;
+const { couple, title, location, cover } = project.data;
+---
+
+<a href={`/portfolio/${project.id}`} class:list={['group block reveal', delay]}>
+  <div class="overflow-hidden aspect-portrait bg-ink-muted">
+    <Photo
+      src={cover.src}
+      alt={cover.alt}
+      width={1000}
+      height={1250}
+      sizes="(max-width: 640px) 100vw, 50vw"
+      eager={eager}
+      class="h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-103"
+    />
+  </div>
+  <div class="mt-5">
+    <p class="text-xs uppercase tracking-meta text-champagne">{location}</p>
+    <h2 class="mt-2 font-display text-3xl text-ivory transition-colors group-hover:text-champagne-light">{couple}</h2>
+    <p class="mt-1 text-sm text-stone-light">{title}</p>
+  </div>
+</a>

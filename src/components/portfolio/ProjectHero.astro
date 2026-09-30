@@ -1,0 +1,31 @@
+---
+/**
+ * Portada del detalle de una boda: foto a sangre de 70 % del alto de la
+ * pantalla con un degradé oscuro para que el texto sea legible, y abajo a la
+ * izquierda el lugar, la pareja (h1) y "título · fecha".
+ *
+ * La foto es la imagen principal del primer pantallazo (LCP), por eso va con
+ * `priority`. El degradé es decorativo (aria-hidden).
+ */
+import Container from '@/components/ui/Container.astro';
+import Photo from '@/components/ui/Photo.astro';
+import { formatDate, type Project } from '@/lib/content';
+
+type Props = {
+  project: Project;
+};
+
+const { couple, title, location, date, cover } = Astro.props.project.data;
+---
+
+<header class="relative min-h-(--height-page-hero) overflow-hidden pt-28">
+  <div class="absolute inset-0">
+    <Photo src={cover.src} alt={cover.alt} width={2000} height={1333} sizes="100vw" priority class="h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/30" aria-hidden="true"></div>
+  </div>
+  <Container class="relative z-10 flex min-h-(--height-page-hero) flex-col justify-end pb-14 sm:pb-20">
+    <p class="text-xs uppercase tracking-caps text-champagne">{location}</p>
+    <h1 class="mt-3 font-display text-5xl text-ivory sm:text-6xl md:text-7xl">{couple}</h1>
+    <p class="mt-3 text-sm text-ivory/70">{title} · {formatDate(date)}</p>
+  </Container>
+</header>

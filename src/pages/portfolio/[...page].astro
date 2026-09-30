@@ -1,0 +1,61 @@
+---
+/**
+ * /portfolio — listado de bodas, paginado.
+ *
+ * `[...page]` es un parámetro "rest": la página 1 se publica en /portfolio/
+ * (sin número) y las siguientes en /portfolio/2/, /portfolio/3/…
+ * `paginate()` arma esas rutas y le pasa a cada una su porción de bodas
+ * (el equivalente a generateStaticParams + slicing manual en Next).
+ * Con el contenido actual (6 bodas, PAGE_SIZE = 9) sale solo /portfolio/.
+ */
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import CtaBanner from '@/components/shared/CtaBanner.astro';
+import ProjectCard from '@/components/portfolio/ProjectCard.astro';
+import Pagination from '@/components/blog/Pagination.astro';
+import { getProjects, PAGE_SIZE, revealDelay, type Project } from '@/lib/content';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  return paginate(await getProjects(), { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+type Props = {
+  page: Page<Project>;
+};
+
+const { page } = Astro.props;
+// Solo la primera página indica su número en el título para no duplicar títulos.
+const title = page.currentPage === 1 ? 'Portfolio' : `Portfolio — Page ${page.currentPage}`;
+---
+
+<BaseLayout
+  title={title}
+  description="Selected wedding galleries by Elena & Co. — garden celebrations, destination elopements, and modern city weddings."
+>
+  <PageIntro
+    eyebrow="Portfolio"
+    title="Recent celebrations"
+    lead="Every gallery is a collaboration. Browse a few favorites below, then inquire with your date."
+  />
+  <section class="pb-20 sm:pb-28">
+    <Container>
+      <div class="grid gap-8 sm:grid-cols-2 lg:gap-10">
+        {
+          page.data.map((project, i) => (
+            <ProjectCard project={project} delay={revealDelay(i)} eager={page.currentPage === 1 && i === 0} />
+          ))
+        }
+      </div>
+      <Pagination
+        currentPage={page.currentPage}
+        lastPage={page.lastPage}
+        prevUrl={page.url.prev}
+        nextUrl={page.url.next}
+        label="Portfolio pages"
+      />
+    </Container>
+  </section>
+  <CtaBanner />
+</BaseLayout>

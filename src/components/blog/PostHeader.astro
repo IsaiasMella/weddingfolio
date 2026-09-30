@@ -1,0 +1,34 @@
+---
+/**
+ * Cabecera de un artículo: eyebrow "Journal", título (h1) y la línea de
+ * metadatos "fecha · autor". Va en el ancho de lectura (max-w-3xl) para
+ * alinearse con el texto del artículo.
+ *
+ * El punto separador es decorativo (aria-hidden): el lector de pantalla lee
+ * la fecha y el autor sin anunciar "punto".
+ */
+import Container from '@/components/ui/Container.astro';
+import { formatDate } from '@/lib/content';
+
+type Props = {
+  title: string;
+  pubDate: Date;
+  author: string;
+};
+
+const { title, pubDate, author } = Astro.props;
+---
+
+<header class="pt-32 pb-10 sm:pt-40 sm:pb-14">
+  <Container size="3xl">
+    <p class="text-xs uppercase tracking-label text-champagne">Journal</p>
+    <h1 class="mt-4 font-display text-4xl font-medium leading-tight text-balance text-ivory sm:text-5xl md:text-6xl">
+      {title}
+    </h1>
+    <div class="mt-6 flex flex-wrap items-center gap-3 text-sm text-stone">
+      <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+      <span class="text-ivory/20" aria-hidden="true">·</span>
+      <span>{author}</span>
+    </div>
+  </Container>
+</header>

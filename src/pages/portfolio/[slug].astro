@@ -1,0 +1,50 @@
+---
+/**
+ * /portfolio/[slug] — detalle de una boda.
+ *
+ * Una página estática por cada archivo de src/content/portfolio. Estructura:
+ * portada (ProjectHero) → bajada + texto en Markdown + botón → galería.
+ * Se publica como `og:type=article` con la portada como imagen social.
+ */
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import CtaBanner from '@/components/shared/CtaBanner.astro';
+import ProjectHero from '@/components/portfolio/ProjectHero.astro';
+import Gallery from '@/components/portfolio/Gallery.astro';
+import { getProjects, type Project } from '@/lib/content';
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}) satisfies GetStaticPaths;
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+const { couple, excerpt, cover, gallery } = project.data;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={couple} description={excerpt} image={cover.src} imageAlt={cover.alt} type="article">
+  <article>
+    <ProjectHero project={project} />
+    <section class="py-16 sm:py-20">
+      <Container size="3xl">
+        <p class="text-lg leading-relaxed text-stone-light sm:text-xl">{excerpt}</p>
+        <div class="prose-wedding mt-8">
+          <Content />
+        </div>
+        <div class="mt-10">
+          <Button href="/contact">Book a similar day</Button>
+        </div>
+      </Container>
+    </section>
+    <Gallery photos={gallery} />
+  </article>
+  <CtaBanner title="Fall in love with a gallery of your own." />
+</BaseLayout>

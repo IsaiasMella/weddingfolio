@@ -1,0 +1,43 @@
+---
+/**
+ * Tarjeta de un artículo en el listado /blog: foto 16:10, fecha, título y
+ * bajada. Es un <article> (contenido independiente) con un único enlace
+ * adentro que cubre toda la tarjeta; el hover anima la foto y el título.
+ * `eager` es para la primera tarjeta, visible en el primer pantallazo.
+ */
+import Photo from '@/components/ui/Photo.astro';
+import { formatDate, type Post } from '@/lib/content';
+
+type Props = {
+  post: Post;
+  /** Clase de retardo de aparición (reveal-delay-N) según su posición en la grilla. */
+  delay: string;
+  eager?: boolean;
+};
+
+const { post, delay, eager = false } = Astro.props;
+const { title, description, pubDate, cover } = post.data;
+---
+
+<article class:list={['group reveal', delay]}>
+  <a href={`/blog/${post.id}`} class="block">
+    <div class="overflow-hidden aspect-card bg-ink-muted">
+      <Photo
+        src={cover.src}
+        alt={cover.alt}
+        width={900}
+        height={560}
+        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        eager={eager}
+        class="h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-103"
+      />
+    </div>
+    <time datetime={pubDate.toISOString()} class="mt-5 block text-xs uppercase tracking-meta text-stone">
+      {formatDate(pubDate)}
+    </time>
+    <h2 class="mt-2 font-display text-2xl text-ivory transition-colors group-hover:text-champagne-light sm:text-3xl">
+      {title}
+    </h2>
+    <p class="mt-2 text-sm leading-relaxed text-stone-light">{description}</p>
+  </a>
+</article>

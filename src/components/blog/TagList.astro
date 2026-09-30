@@ -1,0 +1,22 @@
+---
+/**
+ * Etiquetas de un artículo al pie del texto, separadas por una línea fina.
+ * Son texto (no enlaces) igual que en el original: no existen páginas por
+ * etiqueta. Si el artículo no tiene etiquetas, no se renderiza nada.
+ */
+type Props = {
+  tags: string[];
+};
+
+const { tags } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <ul class="mt-12 flex flex-wrap gap-3 border-t border-ivory/10 pt-8">
+      {tags.map((tag) => (
+        <li class="text-xs uppercase tracking-meta text-stone">{tag}</li>
+      ))}
+    </ul>
+  )
+}

@@ -114,3 +114,122 @@ Se compiló `src/styles/` con la CLI de Tailwind 4.3.3, usando como fuente de cl
 - diferencias de formato del minificador (`width>=40rem` vs `min-width: 40rem`, prefijos `-webkit-`).
 
 En la primera pasada, el diff de texto también detectó un problema de cascada que las capturas no habrían mostrado: `.js .reveal` pisaba el `transition-delay` de `.reveal-delay-N`. Se corrigió con `:where()` antes de verificar.
+
+## Fase 4: sitio reconstruido completo contra el original
+
+`npm run build` (Astro 7.3.5) → `dist/`, comparado contra `referencia/sitio` en las **18 rutas** × 1440/390 px × dark/light.
+
+| Ruta | Ancho | Esquema | Alto A | Alto B | Diff | Ruido | Reveal forzados |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `/` | 1440 | dark | 8651 | 8651 | 0 % | 0 % | — |
+| `/portfolio/` | 1440 | dark | 4086 | 4086 | 0 % | 0 % | — |
+| `/portfolio/aisha-noah-brooklyn/` | 1440 | dark | 3476 | 3476 | 0 % | 0 % | — |
+| `/portfolio/claire-theo-napa/` | 1440 | dark | 3691 | 3691 | 0.0005 % | 0 % | — |
+| `/portfolio/hana-miles-big-sur/` | 1440 | dark | 2865 | 2865 | 0 % | 0 % | — |
+| `/portfolio/maya-jordan-sonoma/` | 1440 | dark | 3763 | 3763 | 0.0005 % | 0 % | — |
+| `/portfolio/priya-daniel-santa-barbara/` | 1440 | dark | 3659 | 3659 | 0.0005 % | 0 % | — |
+| `/portfolio/sofia-luca-amalfi/` | 1440 | dark | 3691 | 3691 | 0 % | 0 % | — |
+| `/about/` | 1440 | dark | 2674 | 2674 | 0.0001 % | 0 % | — |
+| `/services/` | 1440 | dark | 4366 | 4366 | 0 % | 0 % | — |
+| `/contact/` | 1440 | dark | 1364 | 1364 | 0 % | 0 % | — |
+| `/blog/` | 1440 | dark | 2312 | 2312 | 0 % | 0 % | — |
+| `/blog/destination-wedding-coverage/` | 1440 | dark | 2808 | 2808 | 0 % | 0 % | — |
+| `/blog/prints-still-matter/` | 1440 | dark | 2756 | 2756 | 0 % | 0 % | — |
+| `/blog/wedding-timeline-that-breathes/` | 1440 | dark | 2808 | 2808 | 0 % | 0 % | — |
+| `/blog/what-to-wear-engagement/` | 1440 | dark | 2782 | 2782 | 0 % | 0 % | — |
+| `/blog/why-second-photographers-matter/` | 1440 | dark | 2756 | 2756 | 0 % | 0 % | — |
+| `/404` | 1440 | dark | 1186 | 1186 | 0 % | 0 % | — |
+| `/` | 390 | dark | 12230 | 12230 | 0 % | 0 % | — |
+| `/portfolio/` | 390 | dark | 5207 | 5207 | 0 % | 0 % | — |
+| `/portfolio/aisha-noah-brooklyn/` | 390 | dark | 4064 | 4064 | 0 % | 0 % | — |
+| `/portfolio/claire-theo-napa/` | 390 | dark | 4064 | 4064 | 0.0001 % | 0 % | — |
+| `/portfolio/hana-miles-big-sur/` | 390 | dark | 3523 | 3523 | 0 % | 0 % | — |
+| `/portfolio/maya-jordan-sonoma/` | 390 | dark | 4701 | 4701 | 0.0001 % | 0 % | — |
+| `/portfolio/priya-daniel-santa-barbara/` | 390 | dark | 4061 | 4061 | 0.0001 % | 0 % | — |
+| `/portfolio/sofia-luca-amalfi/` | 390 | dark | 4064 | 4064 | 0 % | 0 % | — |
+| `/about/` | 390 | dark | 3228 | 3228 | 0 % | 0 % | — |
+| `/services/` | 390 | dark | 6230 | 6230 | 0 % | 0 % | — |
+| `/contact/` | 390 | dark | 2495 | 2495 | 0 % | 0 % | — |
+| `/blog/` | 390 | dark | 3828 | 3828 | 0 % | 0 % | — |
+| `/blog/destination-wedding-coverage/` | 390 | dark | 2901 | 2901 | 0 % | 0 % | — |
+| `/blog/prints-still-matter/` | 390 | dark | 2823 | 2823 | 0 % | 0 % | — |
+| `/blog/wedding-timeline-that-breathes/` | 390 | dark | 2937 | 2937 | 0 % | 0 % | — |
+| `/blog/what-to-wear-engagement/` | 390 | dark | 2921 | 2921 | 0 % | 0 % | — |
+| `/blog/why-second-photographers-matter/` | 390 | dark | 2823 | 2823 | 0 % | 0 % | — |
+| `/404` | 390 | dark | 1505 | 1505 | 0 % | 0 % | — |
+| `/` | 1440 | light | 8651 | 8651 | 0 % | 0 % | — |
+| `/portfolio/` | 1440 | light | 4086 | 4086 | 0 % | 0 % | — |
+| `/portfolio/aisha-noah-brooklyn/` | 1440 | light | 3476 | 3476 | 0 % | 0 % | — |
+| `/portfolio/claire-theo-napa/` | 1440 | light | 3691 | 3691 | 0.0005 % | 0 % | — |
+| `/portfolio/hana-miles-big-sur/` | 1440 | light | 2865 | 2865 | 0 % | 0 % | — |
+| `/portfolio/maya-jordan-sonoma/` | 1440 | light | 3763 | 3763 | 0.0005 % | 0 % | — |
+| `/portfolio/priya-daniel-santa-barbara/` | 1440 | light | 3659 | 3659 | 0.0005 % | 0 % | — |
+| `/portfolio/sofia-luca-amalfi/` | 1440 | light | 3691 | 3691 | 0 % | 0 % | — |
+| `/about/` | 1440 | light | 2674 | 2674 | 0.0001 % | 0 % | — |
+| `/services/` | 1440 | light | 4366 | 4366 | 0 % | 0 % | — |
+| `/contact/` | 1440 | light | 1364 | 1364 | 0 % | 0 % | — |
+| `/blog/` | 1440 | light | 2312 | 2312 | 0 % | 0 % | — |
+| `/blog/destination-wedding-coverage/` | 1440 | light | 2808 | 2808 | 0 % | 0 % | — |
+| `/blog/prints-still-matter/` | 1440 | light | 2756 | 2756 | 0 % | 0 % | — |
+| `/blog/wedding-timeline-that-breathes/` | 1440 | light | 2808 | 2808 | 0 % | 0 % | — |
+| `/blog/what-to-wear-engagement/` | 1440 | light | 2782 | 2782 | 0 % | 0 % | — |
+| `/blog/why-second-photographers-matter/` | 1440 | light | 2756 | 2756 | 0 % | 0 % | — |
+| `/404` | 1440 | light | 1186 | 1186 | 0 % | 0 % | — |
+| `/` | 390 | light | 12230 | 12230 | 0 % | 0 % | — |
+| `/portfolio/` | 390 | light | 5207 | 5207 | 0 % | 0 % | — |
+| `/portfolio/aisha-noah-brooklyn/` | 390 | light | 4064 | 4064 | 0 % | 0 % | — |
+| `/portfolio/claire-theo-napa/` | 390 | light | 4064 | 4064 | 0.0001 % | 0 % | — |
+| `/portfolio/hana-miles-big-sur/` | 390 | light | 3523 | 3523 | 0 % | 0 % | — |
+| `/portfolio/maya-jordan-sonoma/` | 390 | light | 4701 | 4701 | 0.0001 % | 0 % | — |
+| `/portfolio/priya-daniel-santa-barbara/` | 390 | light | 4061 | 4061 | 0.0001 % | 0 % | — |
+| `/portfolio/sofia-luca-amalfi/` | 390 | light | 4064 | 4064 | 0 % | 0 % | — |
+| `/about/` | 390 | light | 3228 | 3228 | 0 % | 0 % | — |
+| `/services/` | 390 | light | 6230 | 6230 | 0 % | 0 % | — |
+| `/contact/` | 390 | light | 2495 | 2495 | 0 % | 0 % | — |
+| `/blog/` | 390 | light | 3828 | 3828 | 0 % | 0 % | — |
+| `/blog/destination-wedding-coverage/` | 390 | light | 2901 | 2901 | 0 % | 0 % | — |
+| `/blog/prints-still-matter/` | 390 | light | 2823 | 2823 | 0 % | 0 % | — |
+| `/blog/wedding-timeline-that-breathes/` | 390 | light | 2937 | 2937 | 0 % | 0 % | — |
+| `/blog/what-to-wear-engagement/` | 390 | light | 2921 | 2921 | 0 % | 0 % | — |
+| `/blog/why-second-photographers-matter/` | 390 | light | 2823 | 2823 | 0 % | 0 % | — |
+| `/404` | 390 | light | 1505 | 1505 | 0 % | 0 % | — |
+
+**72 comparaciones** · 58 con 0 % · peor: 0.0005 % (`/portfolio/claire-theo-napa/`, 1440 px, dark) · 0 con altura distinta.
+
+**Ninguna página cambia de altura, no hubo que forzar ningún `.reveal` y 58 de 72 capturas son idénticas píxel por píxel.** Las 14 restantes:
+
+| Dónde | Píxeles | Causa |
+| --- | --- | --- |
+| `/portfolio/{claire-theo-napa, maya-jordan-sonoma, priya-daniel-santa-barbara}/` | ~20 px sueltos (0,0005 % en 1440, 0,0001 % en 390) | Dentro de la foto `photo-1606216794074` (galería). El `.webp` generado hoy no es byte a byte el del original: Unsplash sirve hoy la foto fuente algo distinta, o cambió la versión de `sharp`. Se probaron calidades de 60 a 85 y ninguna reproduce el archivo original. |
+| `/about/` (1440) | 2 px (0,0001 %) | Misma causa, en el retrato de Elena. |
+
+Son diferencias de codificación de imagen, invisibles a simple vista, no de marcado ni de CSS.
+
+### Comparaciones que no son de píxeles
+
+| Qué | Resultado |
+| --- | --- |
+| `<main>` de las 17 páginas contra el original (normalizando hashes de imágenes y clases tokenizadas) | Idéntico (verificado por los subagentes; después de unificar `PostCard` solo cambió el orden de dos clases dentro del atributo) |
+| `<head>` (título, description, canonical, Open Graph, Twitter, JSON-LD) | Idéntico, salvo `generator` (7.3.5), las fuentes (ahora `@font-face` propio + `preload` en lugar del `<link>` a Google), el script del tema y el doble punto corregido en las descriptions |
+| `sitemap-index.xml`, `sitemap-0.xml`, `rss.xml`, `llms.txt`, `llms-full.txt`, `robots.txt` | **Idénticos byte a byte** |
+| `npm run build` | 18 páginas, 0 advertencias |
+| `astro check` | 0 errores, 0 advertencias, 0 sugerencias |
+
+### Estados interactivos ([`scripts/verificacion/estados.mjs`](../scripts/verificacion/estados.mjs))
+
+| Estado | Resultado |
+| --- | --- |
+| Menú móvil abierto (390 px, captura de la ventana) | 0 % contra el original |
+| Header después del scroll (1440 px: fondo, blur y sombra) | 0 % |
+| Primer `Tab`: aparece "Skip to content" | 0 % |
+| `Escape` cierra el menú y devuelve el foco al botón | Sí (el original no devolvía el foco) |
+| Sin JavaScript: elementos `.reveal` invisibles en la home | Original: **35 de 35** · Reconstrucción: **0 de 35** |
+| Formulario de contacto: el mensaje aparece solo si pasa la validación | Sí (probado por el subagente B) |
+| Tema claro de demostración (`localStorage.theme = 'light'`) | Se aplica antes del primer pintado (`data-theme="light"`); sin referencia para comparar |
+
+## Qué no se pudo verificar
+
+- **El sitio en vivo con el navegador:** por el certificado del proxy (ver Paso 0). Se reemplazó por la comparación de hashes.
+- **Otros navegadores:** solo Chromium. Firefox y Safari no están instalados en el entorno. La diferencia de CSS más sensible (el color de respaldo sin `color-mix`) solo afecta a navegadores anteriores a 2023.
+- **Pantallas 2x (retina):** todas las capturas son con `deviceScaleFactor: 1`. En 2x el navegador elegiría la variante de 2000w, que es distinta (Astro 7.3 no agranda la foto de 1600 px; ver `DECISIONES.md` §14).
+- **Hover y `:active`:** no se capturan. Las clases son las mismas y los tokens dan el mismo valor (`shadow-glow`, `scale-98`), pero no hay una comparación de píxeles de esos estados.

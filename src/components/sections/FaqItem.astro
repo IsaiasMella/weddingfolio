@@ -1,0 +1,26 @@
+---
+/**
+ * Una pregunta frecuente como acordeón nativo (<details>/<summary>): se abre
+ * y cierra sin JavaScript, funciona con teclado y el lector de pantalla
+ * anuncia si está expandida. El "+" gira 45° (queda como "×") con
+ * `group-open:`; el marcador del navegador se oculta en todos los motores.
+ */
+type Props = {
+  question: string;
+  answer: string;
+  /** Clase reveal-delay-N (ver revealDelay en src/lib/content.ts). */
+  delay: string;
+};
+
+const { question, answer, delay } = Astro.props;
+---
+
+<details class:list={['group reveal py-5 sm:py-6', delay]}>
+  <summary
+    class="flex cursor-pointer list-none items-start justify-between gap-4 text-left font-display text-xl text-ivory marker:content-none sm:text-2xl [&::-webkit-details-marker]:hidden"
+  >
+    <span>{question}</span>
+    <span class="mt-1 shrink-0 text-champagne transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+  </summary>
+  <p class="mt-4 max-w-2xl text-sm leading-relaxed text-stone-light sm:text-base">{answer}</p>
+</details>

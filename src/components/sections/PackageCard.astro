@@ -1,0 +1,49 @@
+---
+/**
+ * Tarjeta de un paquete de precios (home y /services).
+ *
+ * Si el paquete tiene `highlight` en src/content/packages.yaml, la tarjeta se
+ * destaca: borde dorado, fondo más oscuro, etiqueta ("Most booked") y botón
+ * primario. El resto usa botón `ghost`. `mt-auto` no hace falta: la lista es
+ * `flex-1`, así los botones quedan alineados abajo aunque cambie el texto.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { PRIMARY_CTA } from '@/data/site';
+import Button from '@/components/ui/Button.astro';
+import Bullet from '@/components/sections/Bullet.astro';
+
+type Props = {
+  pkg: CollectionEntry<'packages'>;
+  /** Clase reveal-delay-N (ver revealDelay en src/lib/content.ts). */
+  delay: string;
+};
+
+const { pkg, delay } = Astro.props;
+const { name, price, description, features, highlight } = pkg.data;
+---
+
+<article
+  class:list={[
+    'flex flex-col border p-8 sm:p-9 reveal',
+    highlight ? 'border-champagne/50 bg-ink' : 'border-ivory/10 bg-ink-soft',
+    delay,
+  ]}
+>
+  {highlight && <p class="mb-4 text-xs font-medium tracking-caps text-champagne uppercase">{highlight}</p>}
+  <h3 class="font-display text-3xl text-ivory">{name}</h3>
+  <p class="mt-2 text-sm text-champagne-light">{price}</p>
+  <p class="mt-4 text-sm leading-relaxed text-stone-light">{description}</p>
+  <ul class="mt-8 flex-1 space-y-3">
+    {
+      features.map((feature) => (
+        <li class="flex gap-3 text-sm text-ivory/80">
+          <Bullet />
+          {feature}
+        </li>
+      ))
+    }
+  </ul>
+  <div class="mt-10">
+    <Button href={PRIMARY_CTA.href} variant={highlight ? 'primary' : 'ghost'} class="w-full">Inquire about {name}</Button>
+  </div>
+</article>

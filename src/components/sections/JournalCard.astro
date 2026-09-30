@@ -1,0 +1,39 @@
+---
+/**
+ * Tarjeta de un artículo en el "Journal" de la home: portada 16:10, fecha,
+ * título y bajada. Toda la tarjeta es un solo enlace; el hover (zoom de la
+ * foto y título dorado) se dispara desde el <article class="group">.
+ */
+import type { Post } from '@/lib/content';
+import { formatDate } from '@/lib/content';
+import Photo from '@/components/ui/Photo.astro';
+
+type Props = {
+  post: Post;
+  /** Clase reveal-delay-N (ver revealDelay en src/lib/content.ts). */
+  delay: string;
+};
+
+const { post, delay } = Astro.props;
+const { title, description, pubDate, cover } = post.data;
+---
+
+<article class:list={['group reveal', delay]}>
+  <a href={`/blog/${post.id}`} class="block">
+    <div class="aspect-card overflow-hidden bg-ink-muted">
+      <Photo
+        src={cover.src}
+        alt={cover.alt}
+        width={800}
+        height={500}
+        sizes="(max-width: 768px) 100vw, 33vw"
+        class="h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-103"
+      />
+    </div>
+    <time datetime={pubDate.toISOString()} class="mt-5 block text-xs tracking-meta text-stone uppercase">
+      {formatDate(pubDate)}
+    </time>
+    <h3 class="mt-2 font-display text-2xl text-ivory transition-colors group-hover:text-champagne-light">{title}</h3>
+    <p class="mt-2 text-sm leading-relaxed text-stone-light">{description}</p>
+  </a>
+</article>

@@ -1,0 +1,41 @@
+---
+/**
+ * "Kind words": testimonios de src/content/testimonials.yaml sobre fondo
+ * claro (la única sección invertida del sitio, por eso `tone="light"`).
+ *
+ * Marcado semántico de cita: <blockquote> con la cita y <footer><cite> con
+ * quién la dijo. Las comillas tipográficas se agregan acá, no en el YAML.
+ */
+import { getOrdered, revealDelay } from '@/lib/content';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+
+const testimonials = await getOrdered('testimonials');
+---
+
+<section class="bg-ivory py-20 text-ink sm:py-28" aria-labelledby="testimonials-heading">
+  <Container>
+    <SectionHeading
+      eyebrow="Kind words"
+      title="What couples remember."
+      id="testimonials-heading"
+      tone="light"
+      class="mb-14 sm:mb-16"
+    />
+    <div class="grid gap-10 md:grid-cols-3 md:gap-8">
+      {
+        testimonials.map(({ data }, i) => (
+          <blockquote class:list={['border-t border-ink/10 pt-8 reveal', revealDelay(i)]}>
+            <p class="font-display text-xl leading-relaxed text-ink/90 sm:text-2xl">“{data.quote}”</p>
+            <footer class="mt-6">
+              <cite class="not-italic">
+                <span class="block text-sm font-medium text-ink">{data.couple}</span>
+                <span class="mt-1 block text-xs tracking-meta text-ink/50 uppercase">{data.location}</span>
+              </cite>
+            </footer>
+          </blockquote>
+        ))
+      }
+    </div>
+  </Container>
+</section>

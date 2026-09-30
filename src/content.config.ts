@@ -82,7 +82,7 @@ const testimonials = defineCollection({
   }),
 });
 
-/** Preguntas frecuentes (home): src/content/faq.yaml */
+/** Preguntas frecuentes (home y services): src/content/faq.yaml */
 const faq = defineCollection({
   loader: file('src/content/faq.yaml'),
   schema: z.object({
@@ -92,7 +92,7 @@ const faq = defineCollection({
   }),
 });
 
-/** Pasos del proceso (home): src/content/process.yaml */
+/** Pasos del proceso (home y services): src/content/process.yaml */
 const process = defineCollection({
   loader: file('src/content/process.yaml'),
   schema: z.object({

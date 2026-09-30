@@ -1,0 +1,27 @@
+---
+/**
+ * "FAQ": preguntas de src/content/faq.yaml en una columna angosta (3xl) con
+ * separadores entre ítems. Se usa en la home y en /services.
+ */
+import { getOrdered, revealDelay } from '@/lib/content';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import FaqItem from '@/components/sections/FaqItem.astro';
+
+const items = await getOrdered('faq');
+---
+
+<section class="py-20 sm:py-28" aria-labelledby="faq-heading">
+  <Container size="3xl">
+    <SectionHeading
+      eyebrow="FAQ"
+      title="Answers before you inquire."
+      id="faq-heading"
+      align="center"
+      class="mb-12 sm:mb-14"
+    />
+    <div class="space-y-0 divide-y divide-ivory/10 border-y border-ivory/10">
+      {items.map(({ data }, i) => <FaqItem question={data.question} answer={data.answer} delay={revealDelay(i)} />)}
+    </div>
+  </Container>
+</section>

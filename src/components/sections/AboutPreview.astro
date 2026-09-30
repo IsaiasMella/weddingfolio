@@ -1,0 +1,44 @@
+---
+/**
+ * "Meet Elena" en la home: texto a la izquierda y retrato a la derecha en
+ * escritorio; en celular el retrato va primero (order-1 / order-2).
+ * Los textos compartidos con /about salen de ./about-copy.ts.
+ */
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Photo from '@/components/ui/Photo.astro';
+import { ABOUT } from '@/components/sections/about-copy';
+---
+
+<section class="py-20 sm:py-28" aria-labelledby="about-preview-heading">
+  <Container>
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="reveal order-2 lg:order-1">
+        <p class="text-xs font-medium tracking-eyebrow text-champagne uppercase">Meet Elena</p>
+        <h2
+          id="about-preview-heading"
+          class="mt-3 font-display text-4xl leading-tight font-medium text-balance text-ivory sm:text-5xl"
+        >
+          {ABOUT.title}
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-stone-light">{ABOUT.intro}</p>
+        <p class="mt-4 text-base leading-relaxed text-stone">{ABOUT.approach}</p>
+        <div class="mt-8">
+          <Button href="/about" variant="ghost">More about Elena</Button>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2 order-1 lg:order-2">
+        <div class="aspect-portrait overflow-hidden bg-ink-muted">
+          <Photo
+            src={ABOUT.portrait}
+            alt="Elena Moreau photographing a wedding"
+            width={900}
+            height={1125}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

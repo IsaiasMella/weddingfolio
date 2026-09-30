@@ -1,0 +1,35 @@
+---
+/**
+ * Columna izquierda de /contact: encabezado de la página (h1) y los datos de
+ * contacto (correo, teléfono, estudio) como lista de definiciones.
+ * Todos los datos salen de src/data/site.ts.
+ */
+import { SITE, telHref } from '@/data/site';
+---
+
+<p class="text-xs font-medium tracking-eyebrow text-champagne uppercase">Contact</p>
+<h1 class="mt-4 font-display text-5xl font-medium text-balance text-ivory sm:text-6xl">
+  Tell us about your celebration.
+</h1>
+<p class="mt-5 text-base leading-relaxed text-stone-light sm:text-lg">
+  Include your date, venue, and anything that matters — guest count, elopement plans, or destination dreams. We
+  respond within two business days.
+</p>
+<dl class="mt-10 space-y-6 border-t border-ivory/10 pt-8">
+  <div>
+    <dt class="text-xs tracking-meta text-stone uppercase">Email</dt>
+    <dd class="mt-2">
+      <a href={`mailto:${SITE.email}`} class="text-champagne-light transition-colors hover:text-champagne">{SITE.email}</a>
+    </dd>
+  </div>
+  <div>
+    <dt class="text-xs tracking-meta text-stone uppercase">Phone</dt>
+    <dd class="mt-2 text-ivory/85">
+      <a href={telHref(SITE.phone)} class="hover:text-champagne-light">{SITE.phone}</a>
+    </dd>
+  </div>
+  <div>
+    <dt class="text-xs tracking-meta text-stone uppercase">Studio</dt>
+    <dd class="mt-2 text-ivory/85">{SITE.location.locality}, {SITE.location.region}</dd>
+  </div>
+</dl>

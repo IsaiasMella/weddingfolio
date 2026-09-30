@@ -1,0 +1,56 @@
+---
+/**
+ * /services: "What is included" y "Add-ons" en dos columnas.
+ *
+ * Datos como constantes tipadas: son listas propias de esta página y una
+ * colección nueva requeriría otro esquema en src/content.config.ts.
+ */
+import Container from '@/components/ui/Container.astro';
+import Bullet from '@/components/sections/Bullet.astro';
+
+type DetailList = { title: string; items: string[] };
+
+const LISTS: DetailList[] = [
+  {
+    title: 'What is included',
+    items: [
+      'Pre-wedding planning call and timeline guidance',
+      'Professionally edited high-resolution images',
+      'Private online gallery with download access',
+      'Print release for personal use',
+      'Optional albums, prints, and second coverage',
+    ],
+  },
+  {
+    title: 'Add-ons',
+    items: [
+      'Welcome dinner or rehearsal coverage',
+      'Extra hour blocks for long receptions',
+      'Fine-art album design credit',
+      'Rush editing when your date is tight',
+    ],
+  },
+];
+---
+
+<section class="border-t border-ivory/10 py-20 sm:py-28">
+  <Container>
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      {
+        LISTS.map((list, i) => (
+          <div class:list={['reveal', i > 0 && 'reveal-delay-2']}>
+            <h2 class="font-display text-4xl text-ivory sm:text-5xl">{list.title}</h2>
+            <ul class="mt-8 space-y-4 text-stone-light">
+              {list.items.map((item) => (
+                <li class="flex gap-3">
+                  <Bullet />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>

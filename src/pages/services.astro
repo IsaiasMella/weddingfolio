@@ -1,0 +1,32 @@
+---
+/**
+ * /services: paquetes, proceso, qué incluye / extras y FAQ.
+ * Paquetes, proceso y FAQ son las MISMAS secciones de la home (mismos datos).
+ */
+import { SITE } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import Packages from '@/components/sections/Packages.astro';
+import Process from '@/components/sections/Process.astro';
+import ServiceDetails from '@/components/sections/ServiceDetails.astro';
+import Faq from '@/components/sections/Faq.astro';
+import CtaBanner from '@/components/shared/CtaBanner.astro';
+---
+
+<BaseLayout
+  title="Services"
+  description={`Wedding photography packages from ${SITE.name} — elopements, full-day coverage, and destination celebrations.`}
+>
+  <PageIntro
+    eyebrow="Services"
+    title="Photography that supports your day — never steals it."
+    lead="Choose a starting package, then we refine hours, travel, and add-ons together. Every quote is written for your timeline, not a generic template."
+    class="pb-8 sm:pb-12"
+    leadClass="mt-5 max-w-2xl text-base sm:text-lg"
+  />
+  <Packages />
+  <Process />
+  <ServiceDetails />
+  <Faq />
+  <CtaBanner title="Ready for a custom quote?" />
+</BaseLayout>

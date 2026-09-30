@@ -1,0 +1,37 @@
+---
+/**
+ * Campo del formulario de contacto: etiqueta en mayúsculas + input (o
+ * textarea) con solo una línea inferior que se vuelve dorada con el foco.
+ *
+ * El <label> envuelve al control, así queda asociado sin necesidad de
+ * `id`/`for` (clic en la etiqueta = foco en el campo; el lector de pantalla
+ * lee la etiqueta). Los obligatorios llevan `required` y un asterisco visual.
+ */
+type Props = {
+  label: string;
+  name: string;
+  type?: 'text' | 'email' | 'textarea';
+  required?: boolean;
+  placeholder?: string;
+  /** Solo para textarea. */
+  rows?: number;
+};
+
+const { label, name, type = 'text', required = false, placeholder, rows = 6 } = Astro.props;
+
+const controlClass =
+  'w-full border-0 border-b border-ivory/20 bg-transparent px-0 py-3 text-ivory placeholder:text-stone transition-colors duration-300 focus:border-champagne focus:outline-none focus:ring-0';
+---
+
+<label class="block">
+  <span class="mb-2 block text-xs font-medium tracking-label text-stone-light uppercase">
+    {label}{required && <span class="text-champagne"> *</span>}
+  </span>
+  {
+    type === 'textarea' ? (
+      <textarea name={name} rows={rows} required={required} placeholder={placeholder} class={controlClass} />
+    ) : (
+      <input type={type} name={name} required={required} placeholder={placeholder} class={controlClass} />
+    )
+  }
+</label>

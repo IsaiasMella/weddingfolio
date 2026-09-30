@@ -1,0 +1,29 @@
+---
+/**
+ * Home. Cada bloque es una sección independiente de src/components/sections;
+ * los datos repetibles (bodas, paquetes, testimonios, FAQ, posts) vienen de
+ * las Content Collections. Sin `title`: el layout usa el título del sitio.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/sections/Hero.astro';
+import FeaturedWork from '@/components/sections/FeaturedWork.astro';
+import Packages from '@/components/sections/Packages.astro';
+import Process from '@/components/sections/Process.astro';
+import Testimonials from '@/components/sections/Testimonials.astro';
+import AboutPreview from '@/components/sections/AboutPreview.astro';
+import JournalPreview from '@/components/sections/JournalPreview.astro';
+import Faq from '@/components/sections/Faq.astro';
+import CtaBanner from '@/components/shared/CtaBanner.astro';
+---
+
+<BaseLayout>
+  <Hero />
+  <FeaturedWork />
+  <Packages />
+  <Process />
+  <Testimonials />
+  <AboutPreview />
+  <JournalPreview />
+  <Faq />
+  <CtaBanner />
+</BaseLayout>

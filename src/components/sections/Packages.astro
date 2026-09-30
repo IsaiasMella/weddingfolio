@@ -1,0 +1,32 @@
+---
+/**
+ * "Investment": los paquetes de precios (src/content/packages.yaml) en tres
+ * columnas. Se usa igual en la home y en /services (el original repetía el
+ * mismo bloque en ambas páginas, incluido el enlace a /services).
+ */
+import { getOrdered, revealDelay } from '@/lib/content';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import PackageCard from '@/components/sections/PackageCard.astro';
+
+const packages = await getOrdered('packages');
+---
+
+<section class="border-y border-ivory/10 bg-ink-soft py-20 sm:py-28" aria-labelledby="services-heading">
+  <Container>
+    <SectionHeading
+      eyebrow="Investment"
+      title="Packages shaped around your day."
+      lead="Transparent starting points. Every wedding is quoted with care after we learn your timeline and vision."
+      id="services-heading"
+      class="mb-14 sm:mb-16"
+    />
+    <div class="grid gap-6 lg:grid-cols-3">
+      {packages.map((pkg, i) => <PackageCard pkg={pkg} delay={revealDelay(i)} />)}
+    </div>
+    <p class="reveal reveal-delay-2 mt-10 text-center text-sm text-stone">
+      {/* Texto y enlace en la misma línea: con un salto de línea Astro borraría el espacio. */}
+      Prefer something custom? <a href="/services" class="text-champagne-light underline-offset-4 hover:underline">See full service details</a>
+    </p>
+  </Container>
+</section>

@@ -1,0 +1,56 @@
+---
+/**
+ * Tarjeta de una boda en "Selected work" (home): foto con zoom suave al pasar
+ * el mouse, degradado inferior y ubicación / pareja / título encima.
+ *
+ * `large` es la primera tarjeta: ocupa 2 columnas y 2 filas en escritorio
+ * (y su foto se estira a la altura de la fila), y 4:3 en tablet/celular.
+ * `sizes` cambia en consecuencia para que el navegador baje el archivo justo.
+ */
+import type { Project } from '@/lib/content';
+import Photo from '@/components/ui/Photo.astro';
+
+type Props = {
+  project: Project;
+  large?: boolean;
+  /** Clase reveal-delay-N (ver revealDelay en src/lib/content.ts). */
+  delay: string;
+};
+
+const { project, large = false, delay } = Astro.props;
+const { couple, title, location, cover } = project.data;
+---
+
+<a
+  href={`/portfolio/${project.id}`}
+  class:list={[
+    'group relative block overflow-hidden reveal',
+    large && 'sm:col-span-2 lg:col-span-2 lg:row-span-2',
+    delay,
+  ]}
+>
+  <div
+    class:list={[
+      'overflow-hidden bg-ink-muted',
+      large ? 'aspect-landscape lg:aspect-auto lg:h-full lg:min-h-144' : 'aspect-portrait',
+    ]}
+  >
+    <Photo
+      src={cover.src}
+      alt={cover.alt}
+      width={1200}
+      height={1500}
+      sizes={large ? '(max-width: 1024px) 100vw, 66vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'}
+      class="h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-104"
+    />
+  </div>
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-90"
+    aria-hidden="true"
+  ></div>
+  <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+    <p class="text-xs tracking-label text-champagne uppercase">{location}</p>
+    <h3 class="mt-2 font-display text-2xl text-ivory sm:text-3xl">{couple}</h3>
+    <p class="mt-1 text-sm text-ivory/70">{title}</p>
+  </div>
+</a>

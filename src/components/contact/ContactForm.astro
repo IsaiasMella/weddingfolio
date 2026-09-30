@@ -1,0 +1,46 @@
+---
+/**
+ * Formulario de consulta de /contact.
+ *
+ * Envía por `mailto:` con `enctype="text/plain"` (sin backend, como el
+ * original). Para producción, cambiar `action` por el endpoint de un servicio
+ * de formularios (Formspree, Netlify Forms, una Action de Astro…).
+ * El único JS es ./contact-form.ts, que muestra el mensaje de éxito.
+ */
+import { SITE } from '@/data/site';
+import Button from '@/components/ui/Button.astro';
+import Field from '@/components/contact/Field.astro';
+---
+
+<form class="space-y-8" method="POST" action={`mailto:${SITE.email}`} enctype="text/plain" data-contact-form>
+  <div class="grid gap-8 sm:grid-cols-2">
+    <Field label="Your name" name="name" required placeholder="Alex Rivera" />
+    <Field label="Email" name="email" type="email" required placeholder="you@example.com" />
+  </div>
+  <div class="grid gap-8 sm:grid-cols-2">
+    <Field label="Partner's name" name="partner" placeholder="Jordan Lee" />
+    <Field label="Wedding date" name="date" placeholder="September 2027" />
+  </div>
+  <Field label="Venue / location" name="venue" placeholder="Napa Valley, CA" />
+  <Field
+    label="Tell us about your day"
+    name="message"
+    type="textarea"
+    required
+    placeholder="Guest count, vibe, anything that matters to you…"
+  />
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    {/* Sin espacio entre "to" y el correo: así está en el original (mantenerlo en una línea). */}
+    <p class="text-xs text-stone">
+      Submits via email to<span class="text-stone-light">{SITE.email}</span>. Replace with your form service in production.
+    </p>
+    <Button type="submit">Send inquiry</Button>
+  </div>
+  <p class="hidden text-sm text-champagne-light" data-form-success role="status">
+    Thank you — your email client should open with your message ready to send.
+  </p>
+</form>
+
+<script>
+  import '@/components/contact/contact-form';
+</script>

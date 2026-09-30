@@ -1,0 +1,28 @@
+---
+/**
+ * "Selected work" de la home: grilla con las bodas marcadas `featured` en
+ * src/content/portfolio. La primera (la más reciente) es la tarjeta grande.
+ * Para cambiar qué bodas aparecen, basta con editar `featured` en el .md.
+ */
+import { getFeaturedProjects, revealDelay } from '@/lib/content';
+import Container from '@/components/ui/Container.astro';
+import SectionHeadingRow from '@/components/sections/SectionHeadingRow.astro';
+import WorkTile from '@/components/sections/WorkTile.astro';
+
+const projects = await getFeaturedProjects();
+---
+
+<section class="py-20 sm:py-28" aria-labelledby="featured-work-heading">
+  <Container>
+    <SectionHeadingRow
+      eyebrow="Selected work"
+      title="Stories we are proud to hold."
+      lead="A glimpse of recent weddings — intimate elopements, garden celebrations, and destination days."
+      id="featured-work-heading"
+      action={{ label: 'All galleries', href: '/portfolio' }}
+    />
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      {projects.map((project, i) => <WorkTile project={project} large={i === 0} delay={revealDelay(i)} />)}
+    </div>
+  </Container>
+</section>

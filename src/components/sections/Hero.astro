@@ -1,0 +1,66 @@
+---
+/**
+ * Portada de la home: foto a pantalla completa con dos degradados encima
+ * (para que el texto se lea sobre cualquier zona de la foto), nombre del
+ * estudio, h1 y los dos llamados a la acción.
+ *
+ * La foto es la imagen LCP de la página: `priority` la carga sin lazy y con
+ * prioridad alta. Usa un srcset propio (800→2000) porque ocupa todo el ancho.
+ * La entrada escalonada es solo CSS (.hero-enter en src/styles/components/hero.css).
+ *
+ * Nota: el bloque de texto NO usa <Container>. En el original el padding
+ * lateral está en el div exterior y el `max-w-7xl` en el interior, así que el
+ * texto mide 1280 px en pantallas grandes; con <Container> (padding adentro
+ * del max-w) mediría 64 px menos.
+ */
+import { PRIMARY_CTA, SITE } from '@/data/site';
+import Button from '@/components/ui/Button.astro';
+import Photo from '@/components/ui/Photo.astro';
+
+const PHOTO = {
+  src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80',
+  alt: 'Bride and groom walking through soft evening light',
+};
+---
+
+<section class="relative min-h-svh overflow-hidden" aria-label="Hero">
+  <div class="absolute inset-0">
+    <Photo
+      src={PHOTO.src}
+      alt={PHOTO.alt}
+      width={2000}
+      height={1333}
+      sizes="100vw"
+      widths={[800, 1200, 1600, 2000]}
+      priority
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-ink/70 via-ink/20 to-transparent" aria-hidden="true"></div>
+  </div>
+  <div
+    class="relative z-10 flex min-h-svh flex-col justify-end px-5 pt-28 pb-12 sm:px-8 sm:pt-32 sm:pb-20 lg:justify-center lg:pb-24"
+  >
+    <div class="mx-auto w-full max-w-7xl">
+      <p class="hero-enter font-display text-4xl font-medium tracking-wide text-ivory sm:text-5xl md:text-6xl lg:text-7xl">
+        {SITE.name}
+      </p>
+      <h1
+        class="hero-enter hero-enter-delay-1 mt-4 max-w-2xl font-display text-2xl leading-snug font-normal text-balance text-ivory sm:mt-6 sm:text-3xl md:text-4xl"
+      >
+        Weddings told with quiet luxury and honest light.
+      </h1>
+      <p
+        class="hero-enter hero-enter-delay-2 mt-4 max-w-md text-base leading-relaxed text-ivory/85 sm:mt-5 sm:text-lg"
+      >
+        Editorial wedding photography for couples who want their day remembered — not staged.
+      </p>
+      <div
+        class="hero-enter hero-enter-delay-3 mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
+      >
+        <Button href={PRIMARY_CTA.href} class="w-full sm:w-auto">{PRIMARY_CTA.label}</Button>
+        <Button href="/portfolio" variant="ghost" class="w-full sm:w-auto">View the work</Button>
+      </div>
+    </div>
+  </div>
+</section>

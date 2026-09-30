@@ -1,0 +1,29 @@
+---
+/**
+ * Encabezado de sección con un botón a la derecha ("All galleries",
+ * "All articles"). En celular el botón baja debajo del texto; desde `sm`
+ * queda alineado abajo a la derecha.
+ *
+ * Reutiliza <SectionHeading> para el bloque de texto: solo agrega la fila
+ * y el botón con su retardo de aparición.
+ */
+import Button from '@/components/ui/Button.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+
+type Props = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  id: string;
+  action: { label: string; href: string };
+};
+
+const { eyebrow, title, lead, id, action } = Astro.props;
+---
+
+<div class="mb-12 flex flex-col gap-8 sm:mb-16 sm:flex-row sm:items-end sm:justify-between">
+  <SectionHeading eyebrow={eyebrow} title={title} lead={lead} id={id} />
+  <div class="reveal reveal-delay-2 shrink-0">
+    <Button href={action.href} variant="ghost">{action.label}</Button>
+  </div>
+</div>

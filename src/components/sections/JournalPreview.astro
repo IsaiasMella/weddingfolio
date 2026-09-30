@@ -1,0 +1,29 @@
+---
+/**
+ * "Journal" en la home: los 3 artículos más nuevos del blog (sin borradores).
+ * Publicar un post nuevo en src/content/blog lo pone acá automáticamente.
+ */
+import { getPosts, revealDelay } from '@/lib/content';
+import Container from '@/components/ui/Container.astro';
+import SectionHeadingRow from '@/components/sections/SectionHeadingRow.astro';
+import JournalCard from '@/components/sections/JournalCard.astro';
+
+/** Cantidad de artículos que muestra la home. */
+const LIMIT = 3;
+const posts = (await getPosts()).slice(0, LIMIT);
+---
+
+<section class="border-t border-ivory/10 py-20 sm:py-28" aria-labelledby="blog-preview-heading">
+  <Container>
+    <SectionHeadingRow
+      eyebrow="Journal"
+      title="Notes on light, love, and planning."
+      lead="Practical advice and stories from recent celebrations."
+      id="blog-preview-heading"
+      action={{ label: 'All articles', href: '/blog' }}
+    />
+    <div class="grid gap-10 md:grid-cols-3">
+      {posts.map((post, i) => <JournalCard post={post} delay={revealDelay(i)} />)}
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,27 @@
+---
+/**
+ * Cifras de /about ("320+ weddings documented"…) como lista de definiciones:
+ * <dt> es la etiqueta y <dd> el número, así el lector de pantalla los asocia.
+ *
+ * Datos como constante tipada: no hay colección para esto (necesitaría un
+ * esquema nuevo en src/content.config.ts).
+ */
+type Stat = { label: string; value: string };
+
+const STATS: Stat[] = [
+  { label: 'Weddings documented', value: '320+' },
+  { label: 'Years behind the lens', value: '12' },
+  { label: 'Countries traveled', value: '18' },
+];
+---
+
+<dl class="reveal mt-16 grid gap-8 border-t border-ivory/10 pt-12 sm:grid-cols-3">
+  {
+    STATS.map((stat) => (
+      <div>
+        <dt class="text-xs tracking-label text-stone uppercase">{stat.label}</dt>
+        <dd class="mt-2 font-display text-4xl text-champagne sm:text-5xl">{stat.value}</dd>
+      </div>
+    ))
+  }
+</dl>

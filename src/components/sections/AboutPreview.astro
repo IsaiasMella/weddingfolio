@@ -2,12 +2,12 @@
 /**
  * "Meet Elena" en la home: texto a la izquierda y retrato a la derecha en
  * escritorio; en celular el retrato va primero (order-1 / order-2).
- * Los textos compartidos con /about salen de ./about-copy.ts.
+ * Los textos compartidos con /about salen de src/data/about.ts.
  */
 import Button from '@/components/ui/Button.astro';
 import Container from '@/components/ui/Container.astro';
 import Photo from '@/components/ui/Photo.astro';
-import { ABOUT } from '@/components/sections/about-copy';
+import { ABOUT } from '@/data/about';
 ---
 
 <section class="py-20 sm:py-28" aria-labelledby="about-preview-heading">

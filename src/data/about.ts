@@ -1,8 +1,6 @@
 /**
  * Textos de presentación de Elena que se repiten en la home ("Meet Elena") y
  * en /about. Viven en un solo lugar para que no se desincronicen.
- *
- * TODO: moverlos a src/data (datos del sitio) cuando se habilite ese cambio.
  */
 export const ABOUT = {
   title: 'Photographs that feel like memory, not performance.',

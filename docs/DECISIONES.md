@@ -35,3 +35,18 @@ Cada decisión con su justificación. Ordenadas por fase.
 20. **Espacios en blanco en Astro:** el compilador borra el espacio cuando hay un salto de línea entre un texto o expresión y una etiqueta (`© 2026Elena`). Donde el espacio importa, texto y etiqueta van en la misma línea. Se detectó con la comparación de píxeles de la 404.
 21. **La 404 la hice yo** (no el subagente de páginas fijas), porque era la página más simple para verificar la base compartida (layout, header, footer, botones, fuentes): dio 0 % de diferencia.
 22. **Los YAML de datos** (`packages`, `testimonials`, `faq`, `process`) los escribí yo antes de lanzar los subagentes, para que el build de la base funcionara con el esquema completo.
+
+### Tomadas por los subagentes (revisadas al integrar)
+
+23. **Galerías con fotos `w=1400`.** Los `.webp` del original muestran que las fotos de las galerías salían de una descarga de Unsplash de 1400 px de ancho (las portadas, de 1600). Con `w=1600` el detalle de cada boda tenía entre 83 y 166 px más de alto y un 13-20 % de píxeles distintos; con `w=1400`, la misma altura. (Subagente A.)
+24. **Retrato de /about con `w=1400`** y el de la home con `w=1200`: el original usaba dos descargas de la misma foto. Se probaron 1200, 1400 y 1600 contra las capturas; se conservan las dos URLs para ser idénticos. En un sitio propio alcanza con una. (Subagente B.)
+25. **El hero de la home no usa `<Container>`:** en el original el padding lateral está en el `div` de afuera y el `max-w-7xl` en el de adentro. Con `Container` el texto quedaba 64 px más angosto. (Subagente B, comentado en `Hero.astro`.)
+26. **Retardos de aparición en /blog en ciclo de 3** (1-2-3), no de 4 como en el resto: así lo hace el original, porque la grilla tiene 3 columnas. (Subagente A.)
+27. **Datos de About y Services como constantes tipadas** dentro de `Stats.astro` y `ServiceDetails.astro`, no como colecciones: son listas fijas y cortas que no se reutilizan. (Subagente B.)
+28. **Paginación visible solo con más de una página.** No existe en el original; se probó forzando `pageSize: 2` (salieron `/blog/2/` y `/blog/3/` con botones Previous/Next y título "Journal — Page 2"). (Subagente A.)
+
+### Integración (Fase 4)
+
+29. **Una sola tarjeta de artículo.** Los subagentes habían hecho `JournalCard` (home) y `PostCard` (/blog), casi iguales. Se unificaron en `PostCard` con `variant="listing" | "preview"` (cambian el nivel del título, el tamaño y `sizes`). El HTML resultante es el mismo; solo cambia el orden de dos clases dentro del atributo.
+30. **Textos de Elena a `src/data/about.ts`** (antes `components/sections/about-copy.ts`, con un TODO): son datos del negocio, no de un componente.
+31. **`sizes` con píxeles.** Los atributos `sizes` de las imágenes (`(max-width: 1024px) 100vw, 50vw`) repiten los breakpoints de Tailwind en px. No se pueden tokenizar: `sizes` lo lee el navegador desde el HTML, antes de que exista el CSS, y no admite `var()`. Si cambian los breakpoints en `tokens.css`, hay que actualizarlos a mano (buscar `max-width:` en `src/components`).

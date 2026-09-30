@@ -1,9 +1,17 @@
 ---
 /**
- * Tarjeta de un artículo en el listado /blog: foto 16:10, fecha, título y
- * bajada. Es un <article> (contenido independiente) con un único enlace
- * adentro que cubre toda la tarjeta; el hover anima la foto y el título.
- * `eager` es para la primera tarjeta, visible en el primer pantallazo.
+ * Tarjeta de un artículo: foto 16:10, fecha, título y bajada. Es un <article>
+ * (contenido independiente) con un único enlace que cubre toda la tarjeta; el
+ * hover (zoom de la foto y título dorado) se dispara desde `group`.
+ *
+ * Dos variantes, porque la misma tarjeta vive en dos contextos:
+ *   listing → listado /blog: el título es <h2> (la página tiene su <h1>),
+ *             grilla de 1/2/3 columnas y título más grande desde `sm`.
+ *   preview → "Journal" de la home: el título es <h3> (va bajo el <h2> de la
+ *             sección) y la grilla salta directo de 1 a 3 columnas.
+ * El `sizes` y el tamaño de la imagen acompañan a cada grilla para que el
+ * navegador descargue el archivo justo.
+ * `eager` es para la primera tarjeta del listado, visible en el primer pantallazo.
  */
 import Photo from '@/components/ui/Photo.astro';
 import { formatDate, type Post } from '@/lib/content';
@@ -12,11 +20,18 @@ type Props = {
   post: Post;
   /** Clase de retardo de aparición (reveal-delay-N) según su posición en la grilla. */
   delay: string;
+  variant?: 'listing' | 'preview';
   eager?: boolean;
 };
 
-const { post, delay, eager = false } = Astro.props;
+const { post, delay, variant = 'listing', eager = false } = Astro.props;
 const { title, description, pubDate, cover } = post.data;
+
+const isListing = variant === 'listing';
+const Heading = isListing ? 'h2' : 'h3';
+const image = isListing
+  ? { width: 900, height: 560, sizes: '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw' }
+  : { width: 800, height: 500, sizes: '(max-width: 768px) 100vw, 33vw' };
 ---
 
 <article class:list={['group reveal', delay]}>
@@ -25,9 +40,7 @@ const { title, description, pubDate, cover } = post.data;
       <Photo
         src={cover.src}
         alt={cover.alt}
-        width={900}
-        height={560}
-        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        {...image}
         eager={eager}
         class="h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-103"
       />
@@ -35,9 +48,14 @@ const { title, description, pubDate, cover } = post.data;
     <time datetime={pubDate.toISOString()} class="mt-5 block text-xs uppercase tracking-meta text-stone">
       {formatDate(pubDate)}
     </time>
-    <h2 class="mt-2 font-display text-2xl text-ivory transition-colors group-hover:text-champagne-light sm:text-3xl">
+    <Heading
+      class:list={[
+        'mt-2 font-display text-2xl text-ivory transition-colors group-hover:text-champagne-light',
+        isListing && 'sm:text-3xl',
+      ]}
+    >
       {title}
-    </h2>
+    </Heading>
     <p class="mt-2 text-sm leading-relaxed text-stone-light">{description}</p>
   </a>
 </article>

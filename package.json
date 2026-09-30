@@ -8,7 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "astro": "astro"
+    "astro": "astro",
+    "verificar": "node scripts/verificacion/capturas.mjs --a referencia/sitio --b dist --salida .capturas/final",
+    "verificar:ruido": "node scripts/verificacion/capturas.mjs --a referencia/sitio --salida .capturas/ruido",
+    "referencia": "node scripts/verificacion/servidor.mjs referencia/sitio 4400"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

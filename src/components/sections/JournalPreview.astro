@@ -6,7 +6,7 @@
 import { getPosts, revealDelay } from '@/lib/content';
 import Container from '@/components/ui/Container.astro';
 import SectionHeadingRow from '@/components/sections/SectionHeadingRow.astro';
-import JournalCard from '@/components/sections/JournalCard.astro';
+import PostCard from '@/components/blog/PostCard.astro';
 
 /** Cantidad de artículos que muestra la home. */
 const LIMIT = 3;
@@ -23,7 +23,7 @@ const posts = (await getPosts()).slice(0, LIMIT);
       action={{ label: 'All articles', href: '/blog' }}
     />
     <div class="grid gap-10 md:grid-cols-3">
-      {posts.map((post, i) => <JournalCard post={post} delay={revealDelay(i)} />)}
+      {posts.map((post, i) => <PostCard post={post} delay={revealDelay(i)} variant="preview" />)}
     </div>
   </Container>
 </section>

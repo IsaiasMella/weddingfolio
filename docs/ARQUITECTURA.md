@@ -15,8 +15,10 @@ npm run check     # astro check: tipos de TypeScript + errores de plantillas .as
 Verificación visual contra el original (opcional, ver `VERIFICACION.md`):
 
 ```sh
+npx playwright install chromium   # una sola vez (el navegador de Playwright 1.56)
 npm run build
-node scripts/verificacion/capturas.mjs --a referencia/sitio --b dist --salida .capturas/final
+npm run verificar                 # compara las 18 rutas × 1440/390 px × dark/light
+npm run referencia                # sirve la copia del original en http://localhost:4400
 ```
 
 ## Mapa de carpetas
@@ -35,7 +37,9 @@ src/
 │  ├─ portfolio/*.md      una boda por archivo (frontmatter + texto en Markdown)
 │  ├─ blog/*.md           un artículo por archivo
 │  └─ *.yaml              paquetes, testimonios, FAQ, pasos del proceso
-├─ data/site.ts         Identidad del negocio, contacto, navegación (≈ siteConfig)
+├─ data/
+│  ├─ site.ts           Identidad del negocio, contacto, navegación (≈ siteConfig)
+│  └─ about.ts          Textos de presentación de Elena (home + /about)
 ├─ lib/content.ts       Consultas: orden, filtros, fechas, paginación
 ├─ layouts/
 │  └─ BaseLayout.astro  El <html> de todas las páginas (≈ app/layout.tsx)
@@ -60,10 +64,12 @@ src/
 │  ├─ layout/           Header.astro, Footer.astro, SkipLink.astro
 │  ├─ ui/               Piezas genéricas: Button, Container, Photo, SectionHeading, PageIntro
 │  ├─ shared/           CtaBanner.astro (bloque que usan varias páginas)
-│  ├─ sections/         Bloques de la home, about y services
-│  ├─ contact/          Formulario de contacto (+ su script)
-│  ├─ portfolio/        Tarjetas, portada y galería de bodas
-│  └─ blog/             Tarjetas, cabecera, etiquetas y paginación del journal
+│  ├─ sections/         Bloques de página: Hero, FeaturedWork + WorkTile, Packages + PackageCard,
+│  │                    Process, Testimonials, AboutPreview, JournalPreview, Faq + FaqItem,
+│  │                    AboutStory, Stats, ServiceDetails, SectionHeadingRow, Bullet
+│  ├─ contact/          ContactInfo, ContactForm, Field + contact-form.ts (único script de página)
+│  ├─ portfolio/        ProjectCard, ProjectHero, Gallery
+│  └─ blog/             PostCard (listado y home), PostHeader, PostCover, TagList, Pagination
 ├─ scripts/             JavaScript de cliente: header.ts, reveal.ts
 ├─ assets/fonts/        .woff2 de Outfit y Cormorant Garamond
 └─ styles/
@@ -110,7 +116,7 @@ src/pages/portfolio/[slug].astro
   │  getStaticPaths(): una ruta por boda → /portfolio/maya-jordan-sonoma/
   │  render(entry): Markdown → <Content />
   ▼
-componentes (portada, texto con .prose-wedding, galería, CtaBanner)
+ProjectHero → texto con .prose-wedding → Gallery → CtaBanner
   │  cada foto pasa por Photo.astro → <Image /> de astro:assets
   ▼
 BaseLayout.astro

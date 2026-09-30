@@ -1,0 +1,21 @@
+/*
+ * Familias tipográficas.
+ *
+ * Los archivos de fuente los descarga y sirve Astro (API `fonts` en
+ * astro.config.mjs): quedan en el propio dominio, con <link rel="preload">
+ * y con una fuente de respaldo "ajustada" (size-adjust, ascent-override…)
+ * para que el cambio de la fuente del sistema a la definitiva no mueva el
+ * layout. Ver docs/ERRORES-COMUNES.md → "Flash de fuentes".
+ *
+ * Astro publica cada familia en una variable (`--font-outfit`,
+ * `--font-cormorant`). Acá la conectamos con los nombres que usa Tailwind.
+ * El segundo argumento de var() es el stack original: se usa si la variable
+ * de Astro no existe (por ejemplo, en la verificación de la Fase 2, donde este
+ * CSS se inyecta en el HTML original que carga Google Fonts con <link>).
+ */
+@theme {
+  /* Texto corrido, navegación, botones → utilidad `font-sans` (y default del body). */
+  --font-sans: var(--font-outfit, 'Outfit', ui-sans-serif, system-ui, sans-serif);
+  /* Títulos, logo, citas → utilidad `font-display`. */
+  --font-display: var(--font-cormorant, 'Cormorant Garamond', Georgia, 'Times New Roman', serif);
+}

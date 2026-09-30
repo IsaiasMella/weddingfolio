@@ -1,0 +1,21 @@
+/** Todas las rutas del sitio original (descubiertas con el crawler del Paso 0). */
+export const RUTAS = [
+  '/',
+  '/portfolio/',
+  '/portfolio/aisha-noah-brooklyn/',
+  '/portfolio/claire-theo-napa/',
+  '/portfolio/hana-miles-big-sur/',
+  '/portfolio/maya-jordan-sonoma/',
+  '/portfolio/priya-daniel-santa-barbara/',
+  '/portfolio/sofia-luca-amalfi/',
+  '/about/',
+  '/services/',
+  '/contact/',
+  '/blog/',
+  '/blog/destination-wedding-coverage/',
+  '/blog/prints-still-matter/',
+  '/blog/wedding-timeline-that-breathes/',
+  '/blog/what-to-wear-engagement/',
+  '/blog/why-second-photographers-matter/',
+  '/404',
+];

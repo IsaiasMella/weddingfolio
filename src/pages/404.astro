@@ -1,0 +1,30 @@
+---
+/**
+ * Página 404. Astro la publica como /404.html y los hosts estáticos
+ * (Cloudflare Pages, Netlify, Vercel) la sirven ante cualquier ruta inexistente.
+ * `noindex` evita que los buscadores la indexen.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="The page you are looking for does not exist."
+  noindex
+>
+  <section class="flex min-h-(--height-page-center) items-center pt-28">
+    <Container class="text-center">
+      <p class="text-xs tracking-eyebrow text-champagne uppercase">404</p>
+      <h1 class="mt-4 font-display text-5xl text-ivory sm:text-6xl">This page wandered off.</h1>
+      <p class="mx-auto mt-5 max-w-md text-stone-light">
+        The link may be outdated, or the gallery moved. Let’s get you back to the work.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <Button href="/">Back home</Button>
+        <Button href="/portfolio" variant="ghost">View portfolio</Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

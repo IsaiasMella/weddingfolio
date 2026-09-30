@@ -1,0 +1,154 @@
+/*
+ * Tokens de diseño en tres niveles.
+ *
+ *   1. PRIMITIVOS  → la paleta cruda. Nunca se usan directo en componentes.
+ *   2. SEMÁNTICOS  → el rol de cada color (fondo, texto, acento…).
+ *                    Un tema solo redefine este nivel.
+ *   3. TAILWIND    → @theme conecta los roles con los nombres de utilidades
+ *                    del sitio original (bg-ink, text-ivory, text-champagne…)
+ *                    y agrega los tokens nuevos que reemplazan valores que el
+ *                    original escribía a mano (tracking-[0.22em] → tracking-eyebrow).
+ *
+ * Las escalas (espaciado, tamaños de texto, interlineados, breakpoints) son las
+ * de Tailwind por defecto: el diseño original no las modificó. Están
+ * documentadas en docs/TOKENS.md; para cambiarlas se sobrescriben en @theme.
+ */
+
+/* ── 1. Primitivos ─────────────────────────────────────────────────────── */
+@layer theme {
+  :root {
+    /* Neutros cálidos oscuros (fondos) */
+    --palette-ink-950: #0f0e0c;
+    --palette-ink-900: #1a1814;
+    --palette-ink-800: #2a2620;
+    /* Dorado champagne (acento) */
+    --palette-champagne-300: #d4b896;
+    --palette-champagne-400: #c4a574;
+    --palette-champagne-600: #a88b58;
+    /* Marfil (texto sobre oscuro) */
+    --palette-ivory-50: #f5f0e8;
+    --palette-ivory-100: #e8e0d4;
+    /* Piedra (texto secundario) */
+    --palette-stone-300: #b5b0a6;
+    --palette-stone-500: #8a857c;
+  }
+}
+
+/* ── 2. Semánticos ─────────────────────────────────────────────────────── */
+/*
+ * Tema OSCURO = el único tema del sitio original, por eso es el default
+ * (:root). El sitio original no tiene modo claro ni respeta
+ * prefers-color-scheme: si lo hiciéramos, cambiaría su aspecto.
+ * El tema claro existe solo como demostración de la arquitectura y se activa
+ * explícitamente con <html data-theme="light"> (ver ThemeScript.astro).
+ */
+@layer theme {
+  :root,
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+
+    --background: var(--palette-ink-950); /* fondo de página */
+    --surface: var(--palette-ink-900); /* bandas y tarjetas */
+    --surface-muted: var(--palette-ink-800); /* placeholder de imágenes */
+
+    --foreground: var(--palette-ivory-50); /* texto principal */
+    --foreground-soft: var(--palette-ivory-100); /* texto de artículos y CTA */
+    --text-secondary: var(--palette-stone-300); /* bajadas y párrafos secundarios */
+    --text-tertiary: var(--palette-stone-500); /* metadatos, fechas, etiquetas */
+
+    --accent: var(--palette-champagne-400); /* eyebrows, viñetas, botón primario */
+    --accent-emphasis: var(--palette-champagne-300); /* links, precios, hover */
+    --accent-inverse: var(--palette-champagne-600); /* acento sobre superficie invertida */
+  }
+
+  :root[data-theme='light'] {
+    color-scheme: light;
+
+    --background: var(--palette-ivory-50);
+    --surface: var(--palette-ivory-100);
+    --surface-muted: var(--palette-stone-300);
+
+    --foreground: var(--palette-ink-950);
+    --foreground-soft: var(--palette-ink-800);
+    --text-secondary: var(--palette-ink-800);
+    --text-tertiary: var(--palette-stone-500);
+
+    --accent: var(--palette-champagne-600);
+    --accent-emphasis: var(--palette-champagne-600);
+    --accent-inverse: var(--palette-champagne-300);
+  }
+}
+
+/* ── 3. Puente a Tailwind ──────────────────────────────────────────────── */
+@theme {
+  /*
+   * Colores. Se mantienen los nombres del original para que el marcado use
+   * las mismas clases. Cada nombre apunta a un ROL, no a un hex: por eso en el
+   * tema claro `text-ivory` se vuelve oscuro. Las opacidades (`border-ivory/10`)
+   * se calculan con color-mix sobre la variable, así que también siguen al tema.
+   */
+  --color-ink: var(--background);
+  --color-ink-soft: var(--surface);
+  --color-ink-muted: var(--surface-muted);
+  --color-ivory: var(--foreground);
+  --color-ivory-muted: var(--foreground-soft);
+  --color-stone-light: var(--text-secondary);
+  --color-stone: var(--text-tertiary);
+  --color-champagne: var(--accent);
+  --color-champagne-light: var(--accent-emphasis);
+  --color-champagne-deep: var(--accent-inverse);
+
+  /* Movimiento */
+  --ease-premium: cubic-bezier(0.4, 0, 0.2, 1); /* curva única de todo el sitio → `ease-premium` */
+
+  /* Sombras: el "resplandor" dorado del botón primario (antes escrito a mano 64 veces). */
+  --shadow-glow: 0 8px 30px -8px color-mix(in srgb, var(--accent) 45%, transparent);
+
+  /* Tipografía: tamaño extra chico del subtítulo del logo (antes text-[0.65rem]). */
+  --text-2xs: 0.65rem;
+
+  /* Espaciado de letras en mayúsculas (antes tracking-[…em]). De menor a mayor. */
+  --tracking-meta: 0.16em; /* fechas, etiquetas, ubicaciones */
+  --tracking-label: 0.18em; /* labels de formulario, datos, ubicaciones de tarjeta */
+  --tracking-caps: 0.2em; /* títulos de columna del footer, "Most booked" */
+  --tracking-eyebrow: 0.22em; /* eyebrow de cada sección */
+  --tracking-brand: 0.28em; /* "Wedding Photography" bajo el logo */
+
+  /* Proporciones de imagen (antes aspect-[…]). */
+  --aspect-portrait: 4 / 5; /* tarjetas de boda, retrato de Elena */
+  --aspect-card: 16 / 10; /* tarjetas del journal */
+  --aspect-cinema: 21 / 9; /* portada de artículo (celular) */
+  --aspect-banner: 2 / 1; /* portada de artículo (≥ sm) */
+  --aspect-feature: 16 / 11; /* retrato de about en tablet */
+  --aspect-landscape: 4 / 3; /* tarjeta destacada de la home (< lg) */
+}
+
+/*
+ * Alturas de layout. No son parte de una escala: son decisiones de un
+ * componente puntual, pero se nombran para no repetir "70svh" a mano.
+ * Se usan con la sintaxis de variable de Tailwind: min-h-(--height-page-hero).
+ */
+@layer theme {
+  :root {
+    --height-page-hero: 70svh; /* portada de cada boda */
+    --height-page-center: 80svh; /* página 404 */
+  }
+}
+
+/* ── 4. Tokens de componente ───────────────────────────────────────────── */
+/*
+ * Solo para valores de movimiento que usan los componentes con CSS propio
+ * (reveal.css y hero.css). No son colores ni escalas: si se cambian acá,
+ * cambia el "ritmo" de todas las animaciones del sitio.
+ */
+@layer theme {
+  :root {
+    --duration-reveal: 0.55s; /* aparición de .reveal */
+    --distance-reveal: 1.25rem; /* recorrido vertical de .reveal */
+    --delay-step: 0.1s; /* escalón entre .reveal-delay-1…4 */
+
+    --duration-hero: 0.9s; /* entrada del texto del hero */
+    --distance-hero: 1.5rem; /* recorrido vertical del hero */
+    --delay-step-hero: 0.15s; /* escalón entre .hero-enter-delay-1…3 */
+  }
+}

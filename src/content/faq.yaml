@@ -1,0 +1,25 @@
+# Preguntas frecuentes de la home, ordenadas por `order`.
+- id: travel
+  order: 1
+  question: Do you travel for weddings?
+  answer: Yes. Destination weddings are a favorite. Travel fees depend on location — inquire with your date and venue for a clear quote.
+
+- id: booking
+  order: 2
+  question: How far in advance should we book?
+  answer: Peak season dates often book 9–14 months ahead. If your date is soon, reach out anyway — last-minute openings happen.
+
+- id: delivery
+  order: 3
+  question: When will we receive our photos?
+  answer: Signature Day galleries are typically delivered within 6–8 weeks. Destination and peak-season timelines are confirmed in your contract.
+
+- id: albums
+  order: 4
+  question: Do you offer albums or prints?
+  answer: Yes. Heirloom albums and fine-art prints can be added after your gallery is live. We partner with trusted labs for archival quality.
+
+- id: second-photographer
+  order: 5
+  question: Can we request a second photographer?
+  answer: Signature Day includes a second photographer. For Elopement packages, a second shooter can be added when available.

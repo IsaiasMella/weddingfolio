@@ -1,0 +1,20 @@
+# Pasos de "How it works" en la home. El número (01, 02…) sale de `order`.
+- id: inquiry
+  order: 1
+  title: Inquiry
+  description: Share your date, venue, and what you hope the day feels like. We reply within two business days.
+
+- id: connection
+  order: 2
+  title: Connection
+  description: A short call or coffee to make sure we are the right fit — personality matters as much as portfolio.
+
+- id: planning
+  order: 3
+  title: Planning
+  description: Timeline guidance, shot list notes, and a calm plan so photography never feels rushed.
+
+- id: gallery
+  order: 4
+  title: Your Gallery
+  description: A curated online gallery arrives with print rights and recommendations for albums and wall art.

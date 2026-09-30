@@ -1,0 +1,53 @@
+/*
+ * .reveal — aparición suave al entrar en pantalla.
+ *
+ * Lo usan casi todas las secciones. El script src/scripts/reveal.ts agrega
+ * .is-visible cuando el elemento entra en el viewport (IntersectionObserver).
+ * .reveal-delay-N escalona elementos hermanos (tarjetas de una grilla).
+ *
+ * Si el JavaScript falla o está desactivado, el contenido NO debe quedar
+ * invisible: el estado oculto solo se aplica cuando <html> tiene la clase
+ * .js, que agrega un script en línea del <head> (ver ThemeScript.astro).
+ * Ver docs/ERRORES-COMUNES.md → "Animaciones que esconden contenido".
+ */
+@layer utilities {
+  /*
+   * :where() no suma especificidad: el selector sigue pesando lo mismo que
+   * `.reveal` a secas. Si pesara más, el `transition` de acá pisaría el
+   * `transition-delay` de .reveal-delay-N y se perdería el escalonado.
+   */
+  :where(.js) .reveal {
+    opacity: 0;
+    transition:
+      opacity var(--duration-reveal) var(--ease-premium),
+      transform var(--duration-reveal) var(--ease-premium);
+    transform: translateY(var(--distance-reveal));
+  }
+
+  :where(.js) .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 {
+    transition-delay: calc(var(--delay-step) * 1);
+  }
+  .reveal-delay-2 {
+    transition-delay: calc(var(--delay-step) * 2);
+  }
+  .reveal-delay-3 {
+    transition-delay: calc(var(--delay-step) * 3);
+  }
+  .reveal-delay-4 {
+    transition-delay: calc(var(--delay-step) * 4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    transition: none;
+    transform: none;
+  }
+}

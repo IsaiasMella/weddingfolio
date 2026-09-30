@@ -1,0 +1,71 @@
+---
+/**
+ * Metadatos de la página: <title>, description, canonical, Open Graph,
+ * Twitter y datos estructurados (JSON-LD).
+ *
+ * Equivale a `generateMetadata()` de Next. Todo lo que no se pasa por props
+ * sale de src/data/site.ts.
+ */
+import { SITE } from '@/data/site';
+
+export interface Props {
+  /** Título completo, ya con el sufijo del sitio. */
+  title: string;
+  description: string;
+  /** URL absoluta de la imagen social. */
+  image: string;
+  imageAlt: string;
+  type: 'website' | 'article';
+  noindex: boolean;
+  /** JSON-LD propio de la página (ej. BlogPosting). Si falta, se usa el del negocio. */
+  schema?: Record<string, unknown> | undefined;
+}
+
+const { title, description, image, imageAlt, type, noindex, schema } = Astro.props;
+
+// `Astro.site` viene de astro.config.mjs (`site`). Con la URL actual arma la canónica.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: SITE.name,
+  description: SITE.description,
+  url: SITE.url,
+  email: SITE.email,
+  telephone: SITE.phone,
+  image,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: SITE.location.locality,
+    addressRegion: SITE.location.region,
+    addressCountry: SITE.location.country,
+  },
+  sameAs: SITE.social.map((s) => s.href),
+  priceRange: SITE.priceRange,
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={SITE.author} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="alternate" type="application/rss+xml" title={`${SITE.name} Journal`} href="/rss.xml" />
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={image} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+<script type="application/ld+json" set:html={JSON.stringify(schema ?? businessSchema)} />

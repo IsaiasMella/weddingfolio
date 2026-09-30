@@ -1,0 +1,93 @@
+---
+/**
+ * Pie de página: marca y contacto, navegación, redes y enlaces técnicos
+ * (RSS, llms.txt, sitemap). Todo el contenido sale de src/data/site.ts.
+ */
+import { NAV, SITE, telHref } from '@/data/site';
+import Container from '@/components/ui/Container.astro';
+
+const year = new Date().getFullYear();
+const technicalLinks = [
+  { label: 'RSS', href: '/rss.xml' },
+  { label: 'llms.txt', href: '/llms.txt' },
+  { label: 'Sitemap', href: '/sitemap-index.xml' },
+];
+---
+
+<footer class="border-t border-ivory/10 bg-ink-soft">
+  <Container class="py-16 sm:py-20">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <a href="/" class="font-display text-3xl text-ivory">{SITE.name}</a>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-stone-light">{SITE.description}</p>
+        <p class="mt-6 text-sm text-stone">
+          <a href={`mailto:${SITE.email}`} class="text-champagne-light transition-colors hover:text-champagne"
+            >{SITE.email}</a
+          ><span class="mx-2 text-ivory/20">·</span><a
+            href={telHref(SITE.phone)}
+            class="transition-colors hover:text-ivory">{SITE.phone}</a
+          >
+        </p>
+      </div>
+
+      <div class="md:col-span-3">
+        <p class="mb-4 text-xs font-medium tracking-caps text-stone uppercase">Explore</p>
+        <ul class="space-y-3">
+          {
+            NAV.map(({ label, href }) => (
+              <li>
+                <a href={href} class="text-sm text-ivory/75 transition-colors hover:text-champagne-light">
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="md:col-span-4">
+        <p class="mb-4 text-xs font-medium tracking-caps text-stone uppercase">Follow</p>
+        <ul class="flex flex-wrap gap-5">
+          {
+            SITE.social.map(({ label, href }) => (
+              <li>
+                <a
+                  href={href}
+                  class="text-sm text-ivory/75 transition-colors hover:text-champagne-light"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-8 text-sm text-stone">
+          Based in {SITE.location.locality}, {SITE.location.region}. Available worldwide.
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-3 border-t border-ivory/10 pt-8 text-xs text-stone sm:flex-row sm:items-center sm:justify-between"
+    >
+      {/* Todo en una línea: Astro borra el espacio cuando hay un salto de línea entre texto y etiqueta. */}
+      <p>
+        &copy; {year} {SITE.name} · Theme by <a
+          href={SITE.credit.href}
+          class="text-stone-light transition-colors hover:text-champagne">{SITE.credit.label}</a
+        >
+      </p>
+      <div class="flex gap-4">
+        {
+          technicalLinks.map(({ label, href }) => (
+            <a href={href} class="transition-colors hover:text-champagne-light">
+              {label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</footer>

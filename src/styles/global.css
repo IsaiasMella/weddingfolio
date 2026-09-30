@@ -1,0 +1,21 @@
+/*
+ * Punto de entrada de estilos (el equivalente a `app/globals.css` en Next).
+ *
+ * El ORDEN de los imports es parte del diseño: reproduce el orden de la
+ * cascada del CSS original.
+ *   1. Tailwind (capas theme → base → components → utilities).
+ *   2. Fuentes y tokens: solo definen variables; no pisan reglas.
+ *   3. base.css: extiende @layer base (después del reset de Tailwind).
+ *   4. Componentes: van dentro de @layer utilities, así quedan DESPUÉS de las
+ *      utilidades generadas, igual que en el original. Sus @media
+ *      (prefers-reduced-motion) van sin capa, así que ganan siempre.
+ */
+@import 'tailwindcss';
+
+@import './fonts.css';
+@import './tokens.css';
+@import './base.css';
+
+@import './components/reveal.css';
+@import './components/hero.css';
+@import './components/prose.css';

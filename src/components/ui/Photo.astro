@@ -1,0 +1,56 @@
+---
+/**
+ * Imagen optimizada con astro:assets (el `next/image` de Astro, pero la
+ * optimización ocurre en el BUILD, no en cada request).
+ *
+ * Siempre recibe `width` y `height`: el navegador reserva el espacio antes de
+ * descargar la foto y el layout no salta (CLS = 0). Genera un `srcset` en
+ * .webp con varios anchos; `sizes` le dice al navegador qué ancho ocupará la
+ * imagen para que elija el archivo justo.
+ *
+ * `priority` es para la imagen principal del primer pantallazo (LCP): se
+ * descarga con prioridad alta y sin lazy-loading. `eager` carga sin lazy pero
+ * sin subir la prioridad (primeras tarjetas de un listado).
+ */
+import { Image } from 'astro:assets';
+
+type Props = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  sizes: string;
+  /** Anchos del srcset. El default cubre de celular a pantallas 2x. */
+  widths?: number[];
+  priority?: boolean;
+  eager?: boolean;
+  class?: string;
+};
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  sizes,
+  widths = [640, 960, 1280, 1600, 2000],
+  priority = false,
+  eager = false,
+  class: className,
+} = Astro.props;
+
+const loading = priority || eager ? 'eager' : 'lazy';
+---
+
+<Image
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  widths={widths}
+  sizes={sizes}
+  loading={loading}
+  fetchpriority={priority ? 'high' : undefined}
+  decoding={loading === 'eager' ? 'sync' : 'async'}
+  class={className}
+/>

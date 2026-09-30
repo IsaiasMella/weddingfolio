@@ -1,0 +1,37 @@
+# Paquetes de precios. Se muestran ordenados por `order`.
+# `highlight` (opcional) marca la tarjeta destacada y es el texto de su etiqueta.
+- id: elopement
+  order: 1
+  name: Elopement
+  price: From $2,800
+  description: Intimate coverage for two — and the people who matter most.
+  features:
+    - 4 hours of coverage
+    - Online gallery within 4 weeks
+    - 300+ edited images
+    - Travel within 50 miles included
+
+- id: signature-day
+  order: 2
+  name: Signature Day
+  price: From $5,400
+  description: Full-day storytelling for celebrations that unfold with intention.
+  highlight: Most booked
+  features:
+    - 8–10 hours of coverage
+    - Second photographer
+    - Engagement session
+    - Online gallery + print rights
+    - Heirloom USB of high-res files
+
+- id: destination
+  order: 3
+  name: Destination
+  price: Custom
+  description: Multi-day documentation for weddings away from home.
+  features:
+    - Custom hour blocks
+    - Travel & lodging planning
+    - Welcome dinner coverage option
+    - Priority editing timeline
+    - Printed album credit

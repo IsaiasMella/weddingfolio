@@ -1,0 +1,44 @@
+/*
+ * .hero-enter — entrada animada del texto del hero de la home.
+ *
+ * Es solo CSS (no depende de JavaScript): el nombre del sitio, el título, la
+ * bajada y los botones suben y aparecen en cascada al cargar la página.
+ * `both` mantiene el estado inicial (invisible) durante el delay y el final
+ * (visible) al terminar.
+ */
+@layer utilities {
+  .hero-enter {
+    animation: hero-fade var(--duration-hero) var(--ease-premium) both;
+  }
+  .hero-enter-delay-1 {
+    animation-delay: calc(var(--delay-step-hero) * 1);
+  }
+  .hero-enter-delay-2 {
+    animation-delay: calc(var(--delay-step-hero) * 2);
+  }
+  .hero-enter-delay-3 {
+    animation-delay: calc(var(--delay-step-hero) * 3);
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+      transform: translateY(var(--distance-hero));
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter,
+  .hero-enter-delay-1,
+  .hero-enter-delay-2,
+  .hero-enter-delay-3 {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}

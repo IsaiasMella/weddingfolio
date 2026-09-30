@@ -1,0 +1,15 @@
+/*
+ * Entrada SOLO para la verificación de la Fase 2: compila los estilos de
+ * src/styles tomando como fuente de clases el HTML ORIGINAL (referencia/),
+ * para poder reemplazar el CSS del sitio original por el nuestro y comparar.
+ * Refleja el orden de src/styles/global.css.
+ */
+@import 'tailwindcss' source(none);
+@source '../../referencia/sitio/**/*.html';
+
+@import '../../src/styles/fonts.css';
+@import '../../src/styles/tokens.css';
+@import '../../src/styles/base.css';
+@import '../../src/styles/components/reveal.css';
+@import '../../src/styles/components/hero.css';
+@import '../../src/styles/components/prose.css';

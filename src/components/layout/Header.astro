@@ -1,0 +1,122 @@
+---
+/**
+ * Header fijo: logo, navegación principal (≥ lg), botón de reserva y el
+ * menú móvil a pantalla completa (< lg).
+ *
+ * El marcado se renderiza en el servidor (sin JS). El comportamiento
+ * (fondo al hacer scroll, abrir/cerrar el menú) está en src/scripts/header.ts.
+ */
+import { NAV, PRIMARY_CTA, SITE } from '@/data/site';
+import Button from '@/components/ui/Button.astro';
+
+// Link activo: la sección actual o cualquier página dentro de ella (/portfolio/maya… → Work).
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header id="site-header" class="fixed inset-x-0 top-0 z-50" data-header>
+  <!-- Bar only: blur/bg live here so they don't trap the mobile overlay -->
+  {/*
+    El fondo/blur va en esta barra y NO en <header>: un backdrop-filter crea un
+    nuevo "containing block", y el overlay `fixed inset-0` del menú quedaría
+    atrapado dentro de la barra en lugar de cubrir la pantalla.
+  */}
+  <div class="relative z-50 transition-all duration-500 ease-premium" data-header-bar>
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-5 sm:px-8">
+      <a
+        href="/"
+        class="group relative z-10 font-display text-2xl font-medium tracking-wide text-ivory transition-colors duration-300"
+        >{SITE.name}<span
+          class="mt-0.5 block font-sans text-2xs font-normal tracking-brand text-champagne uppercase opacity-90"
+          >{SITE.tagline}</span
+        ></a
+      >
+
+      <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
+        {
+          NAV.map(({ label, href }) =>
+            isActive(href) ? (
+              <a
+                href={href}
+                class="relative text-sm tracking-wide text-champagne-light transition-colors duration-300"
+                aria-current="page"
+              >
+                {label}
+                <span class="absolute -bottom-1 left-0 h-px w-full bg-champagne" aria-hidden="true" />
+              </a>
+            ) : (
+              <a
+                href={href}
+                class="relative text-sm tracking-wide text-ivory/75 transition-colors duration-300 hover:text-ivory"
+              >
+                {label}
+              </a>
+            ),
+          )
+        }
+      </nav>
+
+      <div class="hidden lg:block">
+        <Button href={PRIMARY_CTA.href} size="sm">{PRIMARY_CTA.label}</Button>
+      </div>
+
+      <button
+        type="button"
+        class="relative z-10 flex h-11 w-11 items-center justify-center lg:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <span class="sr-only">Menu</span>
+        <span class="relative block h-3.5 w-6" aria-hidden="true" data-menu-icon>
+          <span
+            class="absolute top-0 left-0 block h-0.5 w-6 origin-center bg-ivory transition-transform duration-300 ease-premium"
+            data-menu-bar="1"></span>
+          <span
+            class="absolute top-1/2 left-0 block h-0.5 w-6 -translate-y-1/2 bg-ivory transition-opacity duration-300 ease-premium"
+            data-menu-bar="2"></span>
+          <span
+            class="absolute bottom-0 left-0 block h-0.5 w-6 origin-center bg-ivory transition-transform duration-300 ease-premium"
+            data-menu-bar="3"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Full-screen overlay: solid ink, above page content, below toggle -->
+  {/*
+    El style en línea duplica bg-ink a propósito: garantiza un fondo opaco
+    aunque el CSS tarde en cargar (si no, el menú se vería transparente sobre
+    la página). El fallback #0f0e0c es palette-ink-950 (ver tokens.css).
+  */}
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 flex flex-col bg-ink lg:hidden"
+    style="background-color: var(--color-ink, #0f0e0c)"
+    data-mobile-menu
+    hidden
+    aria-hidden="true"
+  >
+    <nav class="flex h-full flex-col justify-center gap-6 px-8 pt-24 pb-12" aria-label="Mobile">
+      {
+        NAV.map(({ label, href }) => (
+          <a
+            href={href}
+            class="font-display text-4xl text-ivory transition-colors hover:text-champagne sm:text-5xl"
+            data-menu-link
+          >
+            {label}
+          </a>
+        ))
+      }
+      <div class="pt-6">
+        <Button href={PRIMARY_CTA.href}>{PRIMARY_CTA.label}</Button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  import '@/scripts/header';
+</script>

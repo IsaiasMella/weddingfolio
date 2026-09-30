@@ -1,0 +1,35 @@
+/*
+ * .prose-wedding — tipografía del contenido en Markdown (cuerpo de los
+ * artículos del journal y texto de cada boda).
+ *
+ * El Markdown genera HTML sin clases (<h2>, <p>, <a>…), por eso acá se
+ * estilizan etiquetas descendientes en lugar de usar utilidades en el
+ * marcado. Es el mismo rol que cumple `@tailwindcss/typography` (`prose`),
+ * pero hecho a medida y sin dependencia extra.
+ */
+@layer utilities {
+  .prose-wedding {
+    @apply max-w-none leading-relaxed text-ivory-muted;
+  }
+  .prose-wedding h2 {
+    @apply mt-10 mb-4 font-display text-3xl font-medium text-ivory;
+  }
+  .prose-wedding h3 {
+    @apply mt-8 mb-3 font-display text-2xl font-medium text-ivory;
+  }
+  .prose-wedding p {
+    @apply mb-5;
+  }
+  .prose-wedding a {
+    @apply text-champagne-light underline decoration-champagne/40 underline-offset-4 transition-colors hover:decoration-champagne;
+  }
+  .prose-wedding ul {
+    @apply mb-5 list-disc space-y-2 pl-5;
+  }
+  .prose-wedding blockquote {
+    @apply my-6 border-l-2 border-champagne pl-5 font-display text-xl text-ivory italic;
+  }
+  .prose-wedding img {
+    @apply my-8 w-full rounded-sm;
+  }
+}

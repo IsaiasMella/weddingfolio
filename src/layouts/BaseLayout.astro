@@ -1,0 +1,79 @@
+---
+/**
+ * Layout raíz de todas las páginas (el `app/layout.tsx` de Next).
+ *
+ * Arma el <html>, el <head> con SEO y fuentes, y la estructura común:
+ * enlace "saltar al contenido", header, <main> con la página (slot) y footer.
+ *
+ * Importa global.css UNA vez: Astro genera un solo archivo CSS para todo el
+ * sitio (en el original se llamaba BaseLayout.[hash].css por este import).
+ */
+import '@/styles/global.css';
+import { Font } from 'astro:assets';
+import { SITE } from '@/data/site';
+import Seo from '@/components/seo/Seo.astro';
+import ThemeScript from '@/components/seo/ThemeScript.astro';
+import SkipLink from '@/components/layout/SkipLink.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+
+export interface Props {
+  /** Título de la página. Sin título → el de la home. Con título → "Título · Elena & Co.". */
+  title?: string;
+  description?: string;
+  /** URL absoluta de la imagen para compartir en redes. */
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  schema?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = SITE.defaultImage.src,
+  imageAlt = SITE.defaultImage.alt,
+  type = 'website',
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const fullTitle = title ? `${title} · ${SITE.name}` : SITE.title;
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <ThemeScript />
+    <Seo
+      title={fullTitle}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      type={type}
+      noindex={noindex}
+      schema={schema}
+    />
+    {/* Precarga solo lo que se ve en el primer pantallazo: el cuerpo (Outfit 400) y los títulos (Cormorant 400/500). */}
+    <Font cssVariable="--font-outfit" preload={[{ weight: 400, style: 'normal' }]} />
+    <Font cssVariable="--font-cormorant" preload={[{ weight: 500, style: 'normal' }]} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <SkipLink />
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  // Un solo módulo para todo el sitio: Astro lo incluye una vez aunque haya
+  // muchos elementos .reveal (ver src/scripts/reveal.ts).
+  import '@/scripts/reveal';
+</script>

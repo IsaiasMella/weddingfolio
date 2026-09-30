@@ -1,0 +1,43 @@
+---
+/**
+ * Encabezado de sección: "eyebrow" (texto chico en mayúsculas), título h2 y
+ * bajada opcional. Aparece en casi todas las secciones de la home y services.
+ *
+ *   align="center" → centrado (FAQ).
+ *   tone="light"   → para secciones con fondo claro invertido (testimonios).
+ *
+ * `id` va al <h2> para que la <section> lo use en aria-labelledby.
+ */
+type Props = {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  id: string;
+  align?: 'left' | 'center';
+  tone?: 'dark' | 'light';
+  class?: string;
+};
+
+const { eyebrow, title, lead, id, align = 'left', tone = 'dark', class: className } = Astro.props;
+---
+
+<div class:list={['max-w-2xl', align === 'center' && 'mx-auto text-center', 'reveal', className]}>
+  <p
+    class:list={[
+      'mb-3 text-xs font-medium tracking-eyebrow uppercase',
+      tone === 'light' ? 'text-champagne-deep' : 'text-champagne',
+    ]}
+  >
+    {eyebrow}
+  </p>
+  <h2
+    id={id}
+    class:list={[
+      'font-display text-4xl leading-tight font-medium text-balance sm:text-5xl',
+      tone === 'light' ? 'text-ink' : 'text-ivory',
+    ]}
+  >
+    {title}
+  </h2>
+  {lead && <p class="mt-4 text-base leading-relaxed text-stone-light sm:text-lg">{lead}</p>}
+</div>

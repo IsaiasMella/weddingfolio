@@ -1,0 +1,18 @@
+# Testimonios de la home ("Kind words"), ordenados por `order`.
+- id: maya-jordan
+  order: 1
+  quote: Elena made us forget the camera was there. Every frame feels like a still from a film we actually lived.
+  couple: Maya & Jordan
+  location: Sonoma, CA
+
+- id: sofia-luca
+  order: 2
+  quote: Quiet direction, beautiful light, and images we keep returning to. Worth every penny.
+  couple: Sofia & Luca
+  location: Amalfi Coast
+
+- id: aisha-noah
+  order: 3
+  quote: Our parents cried looking at the gallery. That is the only review that matters.
+  couple: Aisha & Noah
+  location: Brooklyn, NY

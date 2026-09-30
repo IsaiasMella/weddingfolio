@@ -1,0 +1,47 @@
+---
+/**
+ * Llamado a la acción final ("Begin here") con foto de fondo oscurecida.
+ * Se repite al pie de casi todas las páginas; solo cambian título y texto.
+ *
+ * La foto es decorativa (alt="" y aria-hidden en el contenedor): el lector de
+ * pantalla la saltea y lee solo el texto.
+ */
+import { PRIMARY_CTA, SITE } from '@/data/site';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Photo from '@/components/ui/Photo.astro';
+
+type Props = {
+  title?: string;
+  text?: string;
+};
+
+const {
+  title = 'Your date is waiting.',
+  text = 'Tell us about your celebration. We will reply within two business days with availability and next steps.',
+} = Astro.props;
+
+const BACKGROUND = 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1600&q=80';
+---
+
+<section class="relative overflow-hidden py-24 sm:py-32" aria-labelledby="cta-heading">
+  <div class="absolute inset-0" aria-hidden="true">
+    <Photo src={BACKGROUND} alt="" width={2000} height={1125} sizes="100vw" class="h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-ink/75"></div>
+  </div>
+  <Container class="relative z-10 text-center">
+    <div class="reveal mx-auto max-w-2xl">
+      <p class="text-xs font-medium tracking-eyebrow text-champagne uppercase">Begin here</p>
+      <h2 id="cta-heading" class="mt-4 font-display text-4xl font-medium text-balance text-ivory sm:text-5xl md:text-6xl">
+        {title}
+      </h2>
+      <p class="mx-auto mt-5 max-w-lg text-base leading-relaxed text-ivory-muted sm:text-lg">{text}</p>
+      <div
+        class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
+      >
+        <Button href={PRIMARY_CTA.href} class="w-full sm:w-auto">{PRIMARY_CTA.label}</Button>
+        <Button href={`mailto:${SITE.email}`} variant="ghost" class="w-full sm:w-auto">Email {SITE.email}</Button>
+      </div>
+    </div>
+  </Container>
+</section>

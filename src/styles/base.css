@@ -1,0 +1,36 @@
+/*
+ * Estilos globales mínimos. Van en @layer base, después del reset
+ * (preflight) de Tailwind, así cualquier utilidad los puede pisar.
+ * Solo contiene lo que no pertenece a ningún componente: fondo y tipografía
+ * del documento, selección de texto y el anillo de foco.
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink font-sans text-ivory antialiased;
+    /* Alternativas estilísticas de Outfit (ss01): una "a" y una "g" más limpias. */
+    font-feature-settings: 'ss01' on;
+  }
+
+  ::selection {
+    @apply bg-champagne/30 text-ivory;
+  }
+
+  /*
+   * Foco visible en TODO elemento enfocable con teclado. :focus-visible no se
+   * activa con clic de mouse, así que no ensucia el diseño.
+   */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-champagne;
+  }
+}
+
+/* Sin animaciones: el scroll suave también es movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

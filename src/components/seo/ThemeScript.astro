@@ -1,0 +1,31 @@
+---
+/**
+ * Script BLOQUEANTE del <head>. Se ejecuta antes de que el navegador pinte
+ * el primer frame, por eso va en línea (is:inline) y no como módulo diferido.
+ *
+ * Hace dos cosas:
+ *  1. Agrega la clase `js` a <html>. El CSS solo esconde los elementos
+ *     `.reveal` cuando esa clase existe: si el JavaScript falla o está
+ *     desactivado, el contenido se ve igual (ver src/styles/components/reveal.css).
+ *  2. Aplica el tema guardado (data-theme) ANTES de pintar, para evitar el
+ *     "flash" de un tema al otro. El sitio original es solo oscuro: el tema
+ *     oscuro es el default de :root y no se escribe ningún atributo. Solo si
+ *     alguien guardó `localStorage.theme = 'light'` se aplica el tema claro de
+ *     demostración (ver src/styles/tokens.css).
+ *
+ * En Next esto sería el <script> que inyecta `next-themes` en el layout raíz.
+ */
+---
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    root.classList.add('js');
+    try {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
+    } catch {
+      /* localStorage bloqueado (modo privado estricto): queda el tema por defecto. */
+    }
+  })();
+</script>

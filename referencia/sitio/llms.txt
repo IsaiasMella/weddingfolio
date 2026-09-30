@@ -1,0 +1,38 @@
+# Elena & Co.
+
+> Editorial wedding photography for couples who value emotion, craft, and quiet luxury. Based in California, available worldwide.
+
+Site: https://weddingfolio.example.com
+Contact: hello@example.com
+
+## Pages
+
+- [Home](https://weddingfolio.example.com/): Wedding photography portfolio homepage
+- [Work](https://weddingfolio.example.com/portfolio): Work page
+- [About](https://weddingfolio.example.com/about): About page
+- [Services](https://weddingfolio.example.com/services): Services page
+- [Journal](https://weddingfolio.example.com/blog): Journal page
+- [Contact](https://weddingfolio.example.com/contact): Contact page
+
+## Portfolio
+
+- [Hana & Miles](https://weddingfolio.example.com/portfolio/hana-miles-big-sur): Fog, cliffs, and vows whispered with only the Pacific as witness.
+- [Aisha & Noah](https://weddingfolio.example.com/portfolio/aisha-noah-brooklyn): City light, jazz in the background, and a modern loft filled with flowers and found family.
+- [Maya & Jordan](https://weddingfolio.example.com/portfolio/maya-jordan-sonoma): Soft greens, late-afternoon light, and a celebration that felt like an easy Sunday with everyone you love.
+- [Claire & Theo](https://weddingfolio.example.com/portfolio/claire-theo-napa): Rows of vines, a sunset ceremony, and a reception that lingered until the stars arrived.
+- [Sofia & Luca](https://weddingfolio.example.com/portfolio/sofia-luca-amalfi): Cliffside vows, lemon-scented air, and an intimate dinner overlooking the Tyrrhenian Sea.
+- [Priya & Daniel](https://weddingfolio.example.com/portfolio/priya-daniel-santa-barbara): Candlelight, silk, and a black-tie celebration beneath a canopy of oaks.
+
+## Journal
+
+- [How to Build a Wedding Timeline That Breathes](https://weddingfolio.example.com/blog/wedding-timeline-that-breathes): A photographer’s guide to pacing your day so portraits feel unhurried and guests stay present.
+- [What to Wear for Your Engagement Session](https://weddingfolio.example.com/blog/what-to-wear-engagement): Fabric, color, and comfort tips so your engagement portraits feel like you — elevated.
+- [Destination Weddings: How We Plan Coverage](https://weddingfolio.example.com/blog/destination-wedding-coverage): Travel logistics, multi-day storytelling, and what to expect when your celebration leaves home.
+- [Why Second Photographers Matter](https://weddingfolio.example.com/blog/why-second-photographers-matter): Two lenses mean fuller storytelling — ceremony reactions, detail coverage, and less missed emotion.
+- [Prints Still Matter in a Digital Age](https://weddingfolio.example.com/blog/prints-still-matter): How albums and wall art turn a gallery into a legacy — and how to choose what to print first.
+
+## Optional
+
+- [Full content](https://weddingfolio.example.com/llms-full.txt): Extended markdown dump for AI systems
+- [RSS feed](https://weddingfolio.example.com/rss.xml): Blog RSS
+- [Sitemap](https://weddingfolio.example.com/sitemap-index.xml): XML sitemap

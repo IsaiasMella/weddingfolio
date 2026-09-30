@@ -1,0 +1,45 @@
+---
+/**
+ * Cabecera de las páginas internas (Portfolio, Journal, Services, About):
+ * eyebrow + h1 + bajada, cada uno con su retardo de aparición.
+ *
+ * El padding superior (pt-32 / sm:pt-40) deja lugar al header fijo.
+ * Las variaciones entre páginas (espacio inferior, tamaño de la bajada) se
+ * pasan con `class`, `titleClass` y `leadClass` en lugar de multiplicar props.
+ */
+import Container from '@/components/ui/Container.astro';
+
+type Props = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  /** Padding inferior de la sección. */
+  class?: string;
+  titleClass?: string;
+  leadClass?: string;
+};
+
+const {
+  eyebrow,
+  title,
+  lead,
+  class: className = 'pb-12 sm:pb-16',
+  titleClass,
+  leadClass = 'mt-5 max-w-xl text-base sm:text-lg',
+} = Astro.props;
+---
+
+<section class:list={['pt-32 sm:pt-40', className]}>
+  <Container>
+    <p class="reveal text-xs font-medium tracking-eyebrow text-champagne uppercase">{eyebrow}</p>
+    <h1
+      class:list={[
+        'reveal reveal-delay-1 mt-4 max-w-3xl font-display text-5xl font-medium text-balance text-ivory sm:text-6xl',
+        titleClass,
+      ]}
+    >
+      {title}
+    </h1>
+    <p class:list={['reveal reveal-delay-2 leading-relaxed text-stone-light', leadClass]}>{lead}</p>
+  </Container>
+</section>

@@ -1,0 +1,50 @@
+---
+/**
+ * Botón/enlace con los dos estilos del sitio.
+ *
+ *   primary → fondo champagne, texto oscuro, resplandor dorado al pasar el mouse.
+ *   ghost   → solo borde; el borde y el texto se vuelven dorados al pasar el mouse.
+ *
+ * Se renderiza como <a> si recibe `href` y como <button> si no (formularios).
+ * `size="sm"` es la versión compacta del header.
+ *
+ * En el original esta cadena de ~20 clases estaba repetida a mano en cada
+ * botón (94 veces); acá vive en un solo lugar.
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = {
+  variant?: 'primary' | 'ghost';
+  size?: 'md' | 'sm';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+} & Omit<HTMLAttributes<'a'>, 'class' | 'href' | 'type'>;
+
+const { variant = 'primary', size = 'md', href, type = 'button', class: className, ...rest } = Astro.props;
+
+const classes = [
+  'inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-medium tracking-wide',
+  'transition-all duration-300 ease-premium',
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne disabled:opacity-50',
+  variant === 'primary'
+    ? 'bg-champagne text-ink hover:bg-champagne-light hover:shadow-glow'
+    : 'border border-ivory/25 text-ivory hover:border-champagne hover:text-champagne-light',
+  'active:scale-98',
+  // `!` = !important: el tamaño compacto tiene que ganarle al padding base sin depender del orden del CSS.
+  size === 'sm' && '!px-5 !py-2.5 !text-xs',
+  className,
+];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={classes} {...(rest as HTMLAttributes<'button'>)}>
+      <slot />
+    </button>
+  )
+}
